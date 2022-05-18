@@ -22,7 +22,7 @@ export default function convertAudio(file, fileName) {
             })
             .on('error', (err) => {
                 reject(err);
-                console.log('oopsie');
+                console.log('oopsie', err);
             });
     });
 }
