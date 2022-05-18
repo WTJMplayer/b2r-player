@@ -1,5 +1,4 @@
 const ffmpeg = require('fluent-ffmpeg');
-const fs = require('fs');
 const bruh = './audio_samples/bruh.mp3';
 ffmpeg.setFfmpegPath('./ffmpeg/bin/ffmpeg.exe');
 ffmpeg.setFfprobePath('./ffmpeg/bin/ffprobe.exe');
