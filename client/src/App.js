@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
 import SignUp from './components/pages/SignUp';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Home from './components/pages/Home';
+import './App.css';
 
 function App() {
   return (
-    <>
+    <div className='container'>
       <Router>
         <Navbar />
         <Routes>
@@ -17,7 +17,7 @@ function App() {
         </Routes>
       </Router>
       <Footer />
-    </>
+    </div>
   );
 }
 
