@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Home from './components/pages/Home';
 import './App.css';
+import AudioUpload from './components/AudioUpload';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='/sign-up' element={< SignUp />}/>
         </Routes>
       </Router>
+      <AudioUpload />
       <Footer />
     </div>
   );

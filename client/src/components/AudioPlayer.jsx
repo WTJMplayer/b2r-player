@@ -2,6 +2,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import AudioControls from './AudioControls'
 import Backdrop from './Backdrop'
 
+
+//audio player is janky, gonna try to swap over to howler
+import {Howl, Howler} from 'howler';
+//probably will be annoying
+
 const AudioPlayer = ({ tracks }) => {
   //state
   const [trackIndex, setTrackIndex] = useState(0)

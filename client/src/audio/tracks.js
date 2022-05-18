@@ -1,9 +1,9 @@
-import imgSrc from "./images/logo192.png";
-import bb from "./images/bbcover.jpg";
-import apes from './audio/apes.ogg'; 
-import acid from './audio/acid.wav';
+import imgSrc from "../images/logo192.png";
+import bb from "../images/bbcover.jpg";
+import apes from './apes.ogg'; 
+import acid from './acid.wav';
 
-import test from './audio/test.ogg';
+import test from './test.ogg';
 const tracks = [
   {
     title: 'attacked by apes',
