@@ -35,7 +35,7 @@ const startApolloServer = async (typeDefs, resolvers) => {
     db.once('open', () => {
         app.listen(PORT, () => {
             console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
-            console.log(`Use GraphiQL at http://localhost:${PORT}${server.graphiqlPath}`);')
+            console.log(`Use GraphiQL at http://localhost:${PORT}${server.graphiqlPath}`);
         });
     });
 };
