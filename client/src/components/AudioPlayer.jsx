@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import AudioControls from './AudioControls'
 import Backdrop from './Backdrop'
-
-
-//audio player is janky, gonna try to swap over to howler
-import {Howl, Howler} from 'howler';
-//probably will be annoying
+import { Howl } from 'howler'
 
 const AudioPlayer = ({ tracks }) => {
   //state
@@ -16,11 +12,11 @@ const AudioPlayer = ({ tracks }) => {
   const { title, artist, color, image, audioSrc } = tracks[trackIndex]
 
   //refs
-  const audioRef = useRef(new Audio(audioSrc))
+  const audioRef = useRef(new Howl({ src: [audioSrc] }))
   const intervalRef = useRef()
   const isReady = useRef(false)
 
-  const { duration } = audioRef.current
+  let  duration  = audioRef.current._duration
   const currentPercentage = duration
     ? `${(trackProgress / duration) * 100}%`
     : '0%'
@@ -28,31 +24,31 @@ const AudioPlayer = ({ tracks }) => {
   -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #888))
   `
   const startTimer = () => {
-    clearInterval(intervalRef.current);
+    clearInterval(intervalRef.current)
     intervalRef.current = setInterval(() => {
-      if (audioRef.current.ended) {
-        toNextTrack();
-      } else {
-        setTrackProgress(audioRef.current.currentTime)
-      }
-    }, [1000]);
-  };
+      setTrackProgress(audioRef.current.seek())
+    }, [1000])
+  }
+
+  audioRef.current.on('end', () => {
+    toNextTrack()
+  })
+  audioRef.current.on('load', () => {
+    isReady.current = true
+  })
 
   const onScrub = (value) => {
-    clearInterval(intervalRef.current);
-    audioRef.current.currentTime = value;
-    setTrackProgress(audioRef.current.currentTime);
-  };
+    clearInterval(intervalRef.current)
+    audioRef.current.seek(value)
+    setTrackProgress(audioRef.current.seek())
+  }
 
   const onScrubEnd = () => {
     if (!isPlaying) {
-      setIsPlaying(true);
+      setIsPlaying(true)
     }
-    startTimer();
-  };
-
-
-
+    startTimer()
+  }
 
   const toPrevTrack = () => {
     if (trackIndex - 1 < 0) {
@@ -61,7 +57,7 @@ const AudioPlayer = ({ tracks }) => {
       setTrackIndex(trackIndex - 1)
     }
   }
-  
+
   const toNextTrack = () => {
     if (trackIndex < tracks.length - 1) {
       setTrackIndex(trackIndex + 1)
@@ -72,27 +68,25 @@ const AudioPlayer = ({ tracks }) => {
 
   useEffect(() => {
     if (isPlaying) {
-      audioRef.current.play();
-      startTimer();
+      audioRef.current.play()
+      startTimer()
     } else {
-      audioRef.current.pause();
+      audioRef.current.pause()
     }
-  }, [isPlaying]);
+  }, [isPlaying])
 
   useEffect(() => {
-    audioRef.current.pause();
-    audioRef.current = new Audio(audioSrc);
-    setTrackProgress(audioRef.current.currentTime);
-
+    audioRef.current.pause()
+    audioRef.current = new Howl({ src: [audioSrc] })
+    setTrackProgress(audioRef.current.seek())
     if (isReady.current) {
-      audioRef.current.play();
-      setIsPlaying(true);
-      startTimer();
+      audioRef.current.play()
+      setIsPlaying(true)
+      startTimer()
     } else {
-      isReady.current = true;
+      isReady.current = true
     }
-  }, [trackIndex]);
-
+  }, [trackIndex])
 
   return (
     <div className="audio-player">
@@ -105,34 +99,32 @@ const AudioPlayer = ({ tracks }) => {
         <h2 className="title">{title}</h2>
         <h3 className="artist">{artist}</h3>
       </div>
-      
-        <Backdrop 
+
+      <Backdrop
         trackIndex={trackIndex}
         activeColor={color}
         isPlaying={isPlaying}
-        />
+      />
 
-        <AudioControls
-          isPlaying={isPlaying}
-          onPrevClick={toPrevTrack}
-          onNextClick={toNextTrack}
-          onPlayPauseClick={setIsPlaying}
-        />
-        <input
-          type="range"
-          className="progress"
-          min="0"
-          max={duration ? duration : `${duration}`}
-          value={trackProgress}
-          onChange={(e) => onScrub(e.target.value)}
-          onMouseUp={onScrubEnd}
-          onKeyUp={onScrubEnd}
-          style={{ background: trackStyling }}
-          />
-      </div>
+      <AudioControls
+        isPlaying={isPlaying}
+        onPrevClick={toPrevTrack}
+        onNextClick={toNextTrack}
+        onPlayPauseClick={setIsPlaying}
+      />
+      <input
+        type="range"
+        className="progress"
+        min="0"
+        max={duration ? duration : `${duration}`}
+        value={trackProgress}
+        onChange={(e) => onScrub(e.target.value)}
+        onMouseUp={onScrubEnd}
+        onKeyUp={onScrubEnd}
+        style={{ background: trackStyling }}
+      />
+    </div>
   )
 }
-
-
 
 export default AudioPlayer

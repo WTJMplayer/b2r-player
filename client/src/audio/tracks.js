@@ -2,7 +2,7 @@ import imgSrc from "../images/logo192.png";
 import bb from "../images/bbcover.jpg";
 import apes from './apes.ogg'; 
 import acid from './acid.wav';
-
+import bruh from './bruh.ogg';
 import test from './test.ogg';
 const tracks = [
   {
@@ -27,6 +27,14 @@ const tracks = [
     audioSrc: test,
     image: imgSrc,
     color: "#ff00ff",
+  },
+  {
+    title: 'bruh',
+    artist: "sound effects #2",
+    audioSrc: bruh,
+    image: imgSrc,
+    color: "#0000ff",
+
   }
 ];
 export default tracks;
