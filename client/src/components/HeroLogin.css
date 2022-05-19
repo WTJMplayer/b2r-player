@@ -1,6 +1,6 @@
 .hero-container {
-    /* background: url('/images/img-home.jpg') center center/cover no-repeat; */
-    height: 100vh;
+    background: rgb(37, 42, 46);
+    height: 84vh;
     width: 100%;
     display: flex;
     flex-direction: column;

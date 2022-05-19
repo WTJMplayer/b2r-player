@@ -5,18 +5,28 @@ import { Howl } from 'howler'
 
 const AudioPlayer = ({ tracks }) => {
   //state
+
   const [trackIndex, setTrackIndex] = useState(0)
   const [trackProgress, setTrackProgress] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const { title, artist, color, image, audioSrc } = tracks[trackIndex]
+  const { title, artist, color, image } = tracks[trackIndex]
 
   //refs
-  const audioRef = useRef(new Howl({ src: [audioSrc] }))
-  const intervalRef = useRef()
-  const isReady = useRef(false)
+  const queue = useRef(tracks.map((track) => track.audioSrc))
+  const audioRef = useRef(
+    new Howl({
+      src: queue.current[trackIndex],
+      usingWebAudio: true,
+      html5: true,
+      format: ['ogg'],
+    }),
+  )
 
-  let  duration  = audioRef.current._duration
+  const intervalRef = useRef()
+  
+
+  let duration = audioRef.current._duration
   const currentPercentage = duration
     ? `${(trackProgress / duration) * 100}%`
     : '0%'
@@ -33,9 +43,6 @@ const AudioPlayer = ({ tracks }) => {
   audioRef.current.on('end', () => {
     toNextTrack()
   })
-  audioRef.current.on('load', () => {
-    isReady.current = true
-  })
 
   const onScrub = (value) => {
     clearInterval(intervalRef.current)
@@ -44,9 +51,9 @@ const AudioPlayer = ({ tracks }) => {
   }
 
   const onScrubEnd = () => {
-    if (!isPlaying) {
-      setIsPlaying(true)
-    }
+    if (!audioRef.current.playing()) {
+      audioRef.current.play()
+    } 
     startTimer()
   }
 
@@ -64,28 +71,30 @@ const AudioPlayer = ({ tracks }) => {
     } else {
       setTrackIndex(0)
     }
+  
   }
 
   useEffect(() => {
-    if (isPlaying) {
-      audioRef.current.play()
-      startTimer()
-    } else {
-      audioRef.current.pause()
-    }
-  }, [isPlaying])
-
-  useEffect(() => {
-    audioRef.current.pause()
-    audioRef.current = new Howl({ src: [audioSrc] })
-    setTrackProgress(audioRef.current.seek())
-    if (isReady.current) {
+    if (!audioRef.current.playing()) {
       audioRef.current.play()
       setIsPlaying(true)
       startTimer()
     } else {
-      isReady.current = true
+      audioRef.current.pause()
+      setIsPlaying(false)
     }
+  }, [isPlaying])
+
+  useEffect(() => {
+    audioRef.current.stop()
+    setIsPlaying(false)
+    audioRef.current.unload()
+    audioRef.current._src = queue.current[trackIndex]
+    audioRef.current.load()
+    audioRef.current.play()
+    setIsPlaying(true)
+    setTrackProgress(0)
+    startTimer()
   }, [trackIndex])
 
   return (
