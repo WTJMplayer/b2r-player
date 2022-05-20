@@ -4,10 +4,10 @@ export const QUERY_ALL_TRACKS = gql`
   {
     tracks {
       _id
-      name
+      title
       artist
       album
-      imgSrc
+      imageSrc
       audioSrc
     }
   }
@@ -22,11 +22,12 @@ export const QUERY_ALL_PLAYLISTS = gql`
       createdDate
       tracks {
         _id
-        name
+        title
         artist
         album
-        imgSrc
+        imageSrc
         audioSrc
+        color
       }
     }
   }

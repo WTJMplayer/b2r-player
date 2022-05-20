@@ -8,11 +8,12 @@ const playlistSchema = new Schema({
     required: true,
     trim: true
   },
-  author: {
-    type: String,
-    required: true,
-    trim: true
-  },
+  author: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile'
+    }
+  ],
   createdDate: {
     type: Date,
     default: Date.now
