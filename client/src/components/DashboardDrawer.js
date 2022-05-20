@@ -12,6 +12,7 @@ import {
     SimpleGrid,
     Box,
     Heading,
+    Stack,
   } from '@chakra-ui/react';
 
 function DashboardDrawer() {
@@ -32,9 +33,12 @@ const btnRef = React.useRef()
             <DrawerOverlay />
             <DrawerContent>
             <DrawerCloseButton />
-            <DrawerHeader>My Account</DrawerHeader>
+            <DrawerHeader borderBottomWidth='1px'>
+                My Account
+            </DrawerHeader>
 
             <DrawerBody>
+                <Stack spacing='24px'>
                 <Button>
                     Edit Account 
                 </Button>
@@ -55,7 +59,7 @@ const btnRef = React.useRef()
                     
                 </SimpleGrid>
 
-
+                </Stack>
             </DrawerBody>
 
             <DrawerFooter borderTopWidth='1px'>
