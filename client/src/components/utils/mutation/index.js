@@ -35,3 +35,54 @@ export const ADD_PROFILE = gql`
     }
   }
 `
+export const ADD_PLAYLIST = gql`
+  mutation addPlaylist(
+    $tracks: [ID]!
+    $name: String!
+    $author: String!
+    $createdDate: Date!
+    ) {
+    addPlaylist(
+      tracks: $tracks
+      name: $name
+      author: $author
+      createdDate: $createdDate
+      ) {
+      name
+      author
+      createdDate
+      tracks {
+        _id
+        name
+        artist
+        album
+        imgSrc
+        audioSrc
+      }
+    }
+  }
+`;
+
+export const ADD_TRACK = gql`
+  mutation addTrack(
+    $name: String!
+    $artist: String!
+    $album: String!
+    $imgSrc: String!
+    $audioSrc: String!
+    ) {
+    addTrack(
+      name: $name
+      artist: $artist
+      album: $album
+      imgSrc: $imgSrc
+      audioSrc: $audioSrc
+      ) {
+      name
+      artist
+      album
+      imgSrc
+      audioSrc
+    }
+  }
+`;
