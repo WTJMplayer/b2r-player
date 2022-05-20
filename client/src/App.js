@@ -9,7 +9,9 @@ import AudioUpload from './components/AudioUpload';
 import Dashboard from './components/pages/Dashboard';
 
 function App() {
+  
   return (
+    
     <div className='container'>
       <Router>
         <Navbar />

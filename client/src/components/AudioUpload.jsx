@@ -6,7 +6,7 @@ const AudioUpload = () => {
     accept: 'audio/*',
     multiple: false,
   })
-
+  
   if (loading) return <p>Loading...</p>
 
   return (
@@ -15,6 +15,7 @@ const AudioUpload = () => {
       <br />
       {filesContent.map((file, index) => {
         console.log(file, index)
+        return <p key={index}>{file.name}</p>
       }
       )}
     </div>
