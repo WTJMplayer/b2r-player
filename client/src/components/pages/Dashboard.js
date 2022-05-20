@@ -1,7 +1,9 @@
 import React from "react";
 import '../../App.css';
 import SongCards from "../SongCards";
-import PlaylistCards from '../PlaylistCards';
+import ArtistCards from '../ArtistCards';
+import DashboardDrawer from "../DashboardDrawer";
+import SongDrawer from '../SongDrawer';
 
 function Dashboard() {
 
@@ -10,8 +12,12 @@ function Dashboard() {
 
     return (
         <div>
+            <DashboardDrawer />
+            <br />
+            <br />
+            <SongDrawer />
             <SongCards />
-            <PlaylistCards />
+            <ArtistCards />
         </div>    
     );
 }

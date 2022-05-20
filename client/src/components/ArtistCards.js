@@ -1,13 +1,14 @@
 import React from 'react';
-import './SongCards.css';
-import SongCardItem from './SongCardItem';
+import './ArtistCards.css';
+import ArtistCardItem from './ArtistCardItem';
 import { SimpleGrid } from '@chakra-ui/react'
 
-// What fills in the song cards, need to figure out how to link to songs from database
-function SongCards() {
+
+// Fills in artist cards. Need to figure out how to set up artist
+function ArtistCards() {
   return (
     <div className='cards'>
-      <h1> Newest Song Uploads </h1> 
+      <h1> Artists</h1>
       <div className='cards__container'>
         <div className='cards__wrapper'>
           <ul className='cards__items'>
@@ -15,48 +16,42 @@ function SongCards() {
               columns={3}
               spacing={4}
               >
-              <SongCardItem
+                <ArtistCardItem
                 src='images/fillerimage.jpg'
-                text='Song name 1'
-                label='Artist 1'
+                text='Text describing artist 1'
+                label='artist 1'
                 path='/dashboard'
-              />
-              <SongCardItem
+                />
+                <ArtistCardItem
                 src='images/fillerimage.jpg'
-                text='Song name 2'
+                text='Text describing Artist 2'
                 label='Artist 2'
                 path='/dashboard'
-              />
-              <SongCardItem
+                />
+                <ArtistCardItem
                 src='images/fillerimage.jpg'
-                text='Song name 3'
+                text='Text describing Artist 3'
                 label='Artist 3'
                 path='/dashboard'
-              />
-              <SongCardItem
+                />
+                <ArtistCardItem
                 src='images/fillerimage.jpg'
-                text='song name 4'
+                text='Text describing Artist 4'
                 label='Artist 4'
                 path='/dashboard'
-              />
-              <SongCardItem
+                />
+                <ArtistCardItem
                 src='images/fillerimage.jpg'
-                text='song name 5'
+                text='Text describing Artist 5'
                 label='Artist 5'
                 path='/dashboard'
-              />
-              <SongCardItem
+                />
+                <ArtistCardItem
                 src='images/fillerimage.jpg'
-                text='song name 6'
-                label='Artist 6'
+                text='Text describing Artist 5'
+                label='Artist 5'
                 path='/dashboard'
-              />
-              <SongCardItem
-                src='images/fillerimage.jpg'
-                text='song name 7'
-                label='Artist 7'
-                path='/dashboard'
-              />
+                />
             </SimpleGrid>
           </ul>
         </div>
@@ -65,4 +60,4 @@ function SongCards() {
   );
 }
 
-export default SongCards;
+export default ArtistCards;
