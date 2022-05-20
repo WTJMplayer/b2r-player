@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^2.0.0",
+    "@chakra-ui/theme": "^2.0.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@testing-library/jest-dom": "^5.16.4",
@@ -22,10 +23,9 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-
-    "devDependencies": {
-      "concurrently": "^5.1.0"
-    },
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
