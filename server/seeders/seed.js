@@ -1,6 +1,5 @@
 const db = require('../config/connection');
 const { Profile, Track, Playlist } = require('../models');
-const profileSeeds = require('./profileSeeds.json');
 
 db.once('open', async () => {
   try {
@@ -78,15 +77,41 @@ db.once('open', async () => {
             playlists: [playlists[3], playlists[0]]
         },
         {
-            name: 'Bob',
+            name: 'Bobb',
             email: 'bob@gmail.com',
             password: 'password1',
             tracks: [tracks[3]._id],
             playlists: [playlists[1]]
-        }
+        },
+        {
+            name: "trent",
+            email: "trent@email.com",
+            password: "password123",
+            tracks: [],
+            playlists: []
+          },
+          {
+            name: "Jesse",
+            email: "jesse@email.com",
+            password: "password123",
+            tracks: [],
+            playlists: []
+          },
+          {
+            name: "Will",
+            email: "will@email.com",
+            password: "password123",
+            tracks: [],
+            playlists: []
+          },
+          {
+            name: "Mitchell",
+            email: "mitchell@email.com",
+            password: "password123",
+            tracks: [],
+            playlists: []
+          }
     ]);
-
-    await Profile.create(profileSeeds);
 
     console.log('profiles seeded');
 
