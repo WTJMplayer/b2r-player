@@ -4,10 +4,11 @@ import apes from "./apes.ogg";
 import acid from "./acid.ogg";
 import bruh from "./bruh.ogg";
 import test from "./test.ogg";
-// import silence from "./1-hour-of-silence.ogg";
+
 
 const tracks = [
-  
+
+
   {
     title: "attacked by apes",
     artist: "black's beach",
