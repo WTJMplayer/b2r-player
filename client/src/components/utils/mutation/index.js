@@ -66,7 +66,7 @@ export const ADD_TRACK = gql`
     $title: String!,
     $artist: String!,
     $album: String!,
-    $imgSrc: String!,
+    $image: String!,
     $audioSrc: String!
     ) {
     addTrack(
