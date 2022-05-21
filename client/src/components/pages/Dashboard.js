@@ -2,8 +2,11 @@ import React from "react";
 import '../../App.css';
 import SongCards from "../SongCards";
 import ArtistCards from '../ArtistCards';
-import DashboardDrawer from "../DashboardDrawer";
-import SongDrawer from '../SongDrawer';
+import {
+    Heading,
+    Center,
+} from '@chakra-ui/react';
+
 
 function Dashboard() {
 
@@ -11,12 +14,18 @@ function Dashboard() {
 // Need to add auth code so it only shows when user is logged in
 
     return (
-        <div>
-            <DashboardDrawer />
-            <br />
-            <br />
-            <SongDrawer />
+        <div>  
+            <Center>
+                <Heading>
+                    Newest Song Uploads!
+                </Heading>
+            </Center>
             <SongCards />
+            <Center>
+                <Heading>
+                    Artists
+                </Heading>
+            </Center>
             <ArtistCards />
         </div>    
     );
