@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const Profile = require('../models/profile');
 
 const secret = 'secret';
 const expiration = '2h';
