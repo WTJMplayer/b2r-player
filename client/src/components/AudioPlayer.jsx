@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AudioControls from './AudioControls'
 import Backdrop from './Backdrop'
+import quiet from '../audio/quiet'
 
 const AudioPlayer = ({ tracks }) => {
   // state
+  const [queue, setQueue] = useState(tracks.map((track) => ({ ...track })))
   const [trackIndex, setTrackIndex] = useState(0)
   const [trackProgress, setTrackProgress] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
-  const { title, artist, color, image } = tracks[trackIndex]
+  const [isMuted, setIsMuted] = useState(true)
+  const { title, artist, color, image } = queue[trackIndex]
   const [volume, setVolume] = useState(1)
-  const [queue, setQueue] = useState(tracks.map((track) => track.audioSrc))
 
   //refs
 
-  const indexRef = useRef(trackIndex)
-  const queueRef = useRef(queue)
-  const audioRef = useRef(new Audio(queueRef.current[indexRef.current]))
   
+  const queueRef = useRef(queue)
+  const audioRef = useRef(new Audio(queue[0].audioSrc))
+  audioRef.current.muted = isMuted
   const intervalRef = useRef()
   const durationRef = useRef(audioRef.current.duration)
 
@@ -60,10 +61,7 @@ const AudioPlayer = ({ tracks }) => {
     } else {
       setTrackIndex(trackIndex + 1)
     }
-  }
-  , [trackIndex])
-
-  
+  }, [trackIndex])
 
   useEffect(() => {
     if (audioRef.current.muted) {
@@ -89,13 +87,14 @@ const AudioPlayer = ({ tracks }) => {
       audioRef.current.pause()
       clearInterval(intervalRef.current)
     }
-  
   }, [isPlaying])
-
+useEffect(() => {
+  queueRef.current = queue
+}, [queue])
   useEffect(() => {
     console.log(`trackIndex state changed to ${trackIndex}`)
     audioRef.current.pause()
-    audioRef.current.src = queueRef.current[trackIndex]
+    audioRef.current.src = queueRef.current[trackIndex].audioSrc
     audioRef.current.load()
     durationRef.current = audioRef.current.duration
     audioRef.current.addEventListener('canplaythrough', () => {
@@ -104,9 +103,9 @@ const AudioPlayer = ({ tracks }) => {
     audioRef.current.addEventListener('ended', () => {
       toNextTrack()
     })
-    
+
     startTimer()
-  }, [trackIndex, tracks, toNextTrack])
+  }, [trackIndex, toNextTrack])
 
   return (
     <div className="audio-player">
@@ -142,6 +141,16 @@ const AudioPlayer = ({ tracks }) => {
         onMouseUp={onScrubEnd}
         onKeyUp={onScrubEnd}
         style={{ background: trackStyling }}
+      />
+      <input
+        type="button"
+        className="queue-push-test"
+        value="Add to Queue"
+        onClick={() => {
+          tracks.push(quiet[0])
+          setQueue([...tracks])
+          queueRef.current = queue
+        }}
       />
       <input
         type="checkbox"
