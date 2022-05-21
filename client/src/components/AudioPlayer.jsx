@@ -31,6 +31,7 @@ const AudioPlayer = ({ tracks }) => {
         console.log('onload hook called')
         durationRef.current = audioRef.current.duration()
         audioRef.current._sounds[0]._stop = durationRef.current
+        // audioRef.current.play()
         setTrackProgress(0)
       },
     }),
@@ -57,8 +58,8 @@ const AudioPlayer = ({ tracks }) => {
 
   const onScrub = (value) => {
     clearInterval(intervalRef.current)
-    console.log(audioRef.current.seek(value))
-    console.log(audioRef.current.seek(trackId.current))
+    audioRef.current.seek(value)
+    audioRef.current.seek(trackId.current)
     setTrackProgress(audioRef.current.seek(trackId.current))
   }
 
@@ -128,7 +129,7 @@ const AudioPlayer = ({ tracks }) => {
       if (count.current === 2) {
         
         audioRef.current.load()
-        audioRef.current.play()
+        
         audioRef.current.seek(3599.99)
       }
       if (count.current === 3) {
@@ -140,19 +141,21 @@ const AudioPlayer = ({ tracks }) => {
       indexRef.current = trackIndex
       console.log('post initial render, calling all trackIndex hooks')
       setIsPlaying(false)
-      audioRef.current.stop()
-      audioRef.current.unload(true)
       
+      
+      audioRef.current.unload()
       audioRef.current._src = queue.current[trackIndex]
 
       audioRef.current.load()
       audioRef.current._duration = durationRef.current
       trackId.current = audioRef.current._sounds[0]._id
-      audioRef.current.mute(false)
-      if(count.current === 4) {
+
+       if(count.current === 4) {
         count.current++
+        audioRef.current.mute(false)
         return
       }
+
       setIsPlaying(true)
 
       startTimer()
