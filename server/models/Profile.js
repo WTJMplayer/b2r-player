@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const { Schema } = mongoose;
 
 const profileSchema = new mongoose.Schema ({
     name: {
@@ -19,6 +20,18 @@ const profileSchema = new mongoose.Schema ({
         required: true,
         minlength: 8,
     },
+    playlists: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Playlist'
+        }
+      ],
+    tracks: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Track'
+        }
+      ]
 });
 
 //set up pre-save middleware to create password

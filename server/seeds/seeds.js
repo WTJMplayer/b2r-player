@@ -1,11 +1,7 @@
 const db = require('../config/connection');
-const { Profile, Track, Playlist } = require('../models');
-const profileSeeds = require('./profileSeeds.json');
+const { Playlist, Profile, Track } = require('../models');
 
 db.once('open', async () => {
-  try {
-    await Profile.deleteMany({});
-
     await Track.deleteMany();
   
     const tracks = await Track.insertMany([
@@ -14,7 +10,7 @@ db.once('open', async () => {
             artist: "black's beach",
             album: "album 1",
             audioSrc: '../../client/src/audio/apes.ogg',
-            image: '../../client/images/bbcover.jpg',
+            imageSrc: '../../client/images/bbcover.jpg',
             color: "#ff0000",
         },
         {
@@ -22,7 +18,7 @@ db.once('open', async () => {
             artist: "black's beach",
             album: "album 2",
             audioSrc: '../../client/src/audio/acid.ogg',
-            image: '../../client/images/bbcover.jpg',
+            imageSrc: '../../client/images/bbcover.jpg',
             color: "#00ff00",
         },
         {
@@ -30,7 +26,7 @@ db.once('open', async () => {
             artist: "test",
             album: "album 3",
             audioSrc: '../../client/src/audio/test.ogg',
-            image: '../../client/images/logo192.jpg',
+            imageSrc: '../../client/images/logo192.jpg',
             color: "#ff00ff",        
         },
         {
@@ -38,7 +34,7 @@ db.once('open', async () => {
             artist: "sound effects",
             album: "album 4",
             audioSrc: '../../client/src/audio/bruh.ogg',
-            image: '../../client/images/logo192.jpg',
+            imageSrc: '../../client/images/logo192.jpg',
             color: "#ff00ff",        
         },
     ]);
@@ -86,15 +82,7 @@ db.once('open', async () => {
         }
     ]);
 
-    await Profile.create(profileSeeds);
-
     console.log('profiles seeded');
-
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
-
-  console.log('all done!');
-  process.exit(0);
-});
+  
+    process.exit();
+  });

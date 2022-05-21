@@ -32,6 +32,7 @@
     "develop": "concurrently \"cd server && npm run start\" \"cd client && npm start\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "test": "react-scripts test",
+    "seed": "cd server && npm run seed",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
