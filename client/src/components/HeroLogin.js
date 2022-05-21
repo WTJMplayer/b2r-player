@@ -1,8 +1,4 @@
 import React, { useState } from 'react';
-
-import { useMutation } from '@apollo/client';
-import { ADD_USER } from '../utils/mutations';
-
 import '../App.css';
 import './HeroLogin.css';
 import {
@@ -41,38 +37,6 @@ function HeroSection() {
   const handleShowClick = () => setShowPassword(!showPassword);
 
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const Signup = () => {
-    const [formState, setFormState] = useState({
-      username: '',
-      email: '',
-      password: '',
-    });
-    const [addUser, { error, data }] = useMutation(ADD_USER);
-  
-    const handleChange = (event) => {
-      const { name, value } = event.target;
-  
-      setFormState({
-        ...formState,
-        [name]: value,
-      });
-    };
-  
-    const handleFormSubmit = async (event) => {
-      event.preventDefault();
-      console.log(formState);
-  
-      try {
-        const { data } = await addUser({
-          variables: { ...formState },
-        });
-  
-        Auth.login(data.addUser.token);
-      } catch (e) {
-        console.error(e);
-      }
-    };
 
   // const [userName, setUserName] = useState('');
   // const [password, setPassword] = useState('');
@@ -213,49 +177,26 @@ function HeroSection() {
             <Stack spacing={4}>
             <HStack>
               <Box>
-                <FormControl id="firstName" isRequired onSubmit={handleFormSubmit}>
+                <FormControl id="firstName" isRequired>
                   <FormLabel>First Name</FormLabel>
-                  <Input
-                  className="form-input"
-                  placeholder="First Name"
-                  name="FirstName"
-                  type="text"
-                  value={formState.name}
-                  onChange={handleChange}
-                />
+                  <Input type="text" />
                 </FormControl>
               </Box>
               <Box>
                 <FormControl id="lastName">
                   <FormLabel>Last Name</FormLabel>
-                  <Input
-                  className="form-input"
-                  placeholder="Last Name"
-                  name="lastName"
-                  type="text"
-                  value={formState.name}
-                  onChange={handleChange}
-                />
+                  <Input type="text" />
                 </FormControl>
               </Box>
             </HStack>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input
-                  className="form-input"
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                />
+              <Input type="email" />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input 
-                type={showPassword ? 'text' : 'password'}
-                />
+                <Input type={showPassword ? 'text' : 'password'} />
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -284,5 +225,4 @@ function HeroSection() {
   );
 }
 
-export default Signup;
 export default HeroSection;
