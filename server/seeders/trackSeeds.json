@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Attacked by Apes",
+    "artist": "Black's Beach",
+    "album": "A Taste of Armageddon",
+    "audioSrc": "../public/audio/apes.ogg",
+    "image": "../public/images/bbcover.jpg",
+    "color": "#ff0000"
+  },
+  {
+    "title": "Acid Drop",
+    "artist": "Black's Beach",
+    "album": "A Taste of Armageddon",
+    "audioSrc": "../public/audio/acid.ogg",
+    "image": "../public/images/bbcover.jpg",
+    "color": "#00ff00"
+  },
+
+  {
+    "title": "test",
+    "artist": "test",
+    "album": "test",
+    "audioSrc": "../public/audio/test.ogg",
+    "image": "../public/images/logo192.png",
+    "color": "#ff00ff"
+  },
+  {
+    "title": "bruh",
+    "artist": "bro",
+    "album": "Sound Effects #2",
+    "audioSrc": "../public/audio/bruh.ogg",
+    "color": "#0000ff"
+  }
+]

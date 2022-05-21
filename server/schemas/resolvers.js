@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { Profile, Track, Playlist } = require('../models');
 const { signToken } = require('../utils/auth');
+const { convertAudio } = require('../utils/convertAudio');
 
 const resolvers = {
     Query: {
@@ -13,8 +14,19 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
+        tracks: async () => {
+            return await Track.find();
+        },
     },
     Mutation: {
+        addTrack: async (parent, args, context) => {
+            const track = await Track.create(args);
+                return track;
+            if (context.user) {
+                throw new AuthenticationError('You need to be logged in!');    
+            }
+            
+        },
         addProfile: async (parent, {name, email, password}) => {
             const profile = await Profile.create({ name, email, password});
             const token = signToken(profile);
