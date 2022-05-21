@@ -49,6 +49,14 @@ export const ADD_PLAYLIST = gql`
       name
       author
       createdDate
+      tracks {
+        _id
+        title
+        artist
+        album
+        image
+        audioSrc
+      }
     }
   }
 `;
@@ -65,13 +73,13 @@ export const ADD_TRACK = gql`
       title: $title,
       artist: $artist,
       album: $album,
-      imgSrc: $imgSrc,
+      image: $image,
       audioSrc: $audioSrc
       ) {
       title
       artist
       album
-      imgSrc
+      image
       audioSrc
     }
   }
