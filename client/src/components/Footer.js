@@ -8,7 +8,6 @@ function Footer() {
   return (
     <div className='footer-container'>
         <AudioPlayer tracks={tracks} />
-        
     </div>
   );
 }

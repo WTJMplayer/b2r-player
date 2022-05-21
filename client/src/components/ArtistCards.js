@@ -1,14 +1,13 @@
 import React from 'react';
-import './ArtistCards.css';
-import ArtistCardItem from './ArtistCardItem';
+import './Cards.css';
+import CardItems from './CardsItems';
 import { SimpleGrid } from '@chakra-ui/react'
 
 
 // Fills in artist cards. Need to figure out how to set up artist
 function ArtistCards() {
   return (
-    <div className='cards'>
-      <h1> Artists</h1>
+    <div>
       <div className='cards__container'>
         <div className='cards__wrapper'>
           <ul className='cards__items'>
@@ -16,42 +15,37 @@ function ArtistCards() {
               columns={3}
               spacing={4}
               >
-                <ArtistCardItem
+                <CardItems
                 src='images/fillerimage.jpg'
                 text='Text describing artist 1'
-                label='artist 1'
-                path='/dashboard'
+                artist='Artist 1'
+                path='/artist'
                 />
-                <ArtistCardItem
+                <CardItems
                 src='images/fillerimage.jpg'
                 text='Text describing Artist 2'
-                label='Artist 2'
-                path='/dashboard'
+                artist='Artist 2'
+                path='/artist'
                 />
-                <ArtistCardItem
+                <CardItems
                 src='images/fillerimage.jpg'
                 text='Text describing Artist 3'
-                label='Artist 3'
-                path='/dashboard'
+                artist='Artist 3'
+                path='/artist'
                 />
-                <ArtistCardItem
+                <CardItems
                 src='images/fillerimage.jpg'
                 text='Text describing Artist 4'
-                label='Artist 4'
-                path='/dashboard'
+                artist='Artist 4'
+                path='/artist'
                 />
-                <ArtistCardItem
+                <CardItems
                 src='images/fillerimage.jpg'
                 text='Text describing Artist 5'
-                label='Artist 5'
-                path='/dashboard'
+                artist='Artist 5'
+                path='/artist'
                 />
-                <ArtistCardItem
-                src='images/fillerimage.jpg'
-                text='Text describing Artist 5'
-                label='Artist 5'
-                path='/dashboard'
-                />
+
             </SimpleGrid>
           </ul>
         </div>

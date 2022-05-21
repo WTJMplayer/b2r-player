@@ -1,67 +1,105 @@
 import React from 'react';
-import './SongCards.css';
-import SongCardItem from './SongCardItem';
-import { SimpleGrid } from '@chakra-ui/react'
+import './Cards.css';
+import CardItems from './CardsItems';
+import { 
+  SimpleGrid, 
+  Flex, 
+  Box,
+} from '@chakra-ui/react'
+import AddToPlaylist from './AddToPlaylist'
+import EditSongDetails from './EditSongDetails';
 
 // What fills in the song cards, need to figure out how to link to songs from database
 function SongCards() {
+  const breakpoints = {
+    sm: '30em',
+    md: '48em',
+    lg: '62em',
+    xl: '80em',
+    '2xl': '96em',
+  }
+
   return (
-    <div className='cards'>
-      <h1> Newest Song Uploads </h1> 
-      <div className='cards__container'>
+    <>
+      <Flex 
+        align='center'
+        justify='center'
+        wrap='wrap'
+        >
+      <Box className='cards__container'  >
         <div className='cards__wrapper'>
           <ul className='cards__items'>
             <SimpleGrid
               columns={3}
               spacing={4}
               >
-              <SongCardItem
-                src='images/fillerimage.jpg'
-                text='Song name 1'
-                label='Artist 1'
-                path='/dashboard'
-              />
-              <SongCardItem
-                src='images/fillerimage.jpg'
-                text='Song name 2'
-                label='Artist 2'
-                path='/dashboard'
-              />
-              <SongCardItem
-                src='images/fillerimage.jpg'
-                text='Song name 3'
-                label='Artist 3'
-                path='/dashboard'
-              />
-              <SongCardItem
-                src='images/fillerimage.jpg'
-                text='song name 4'
-                label='Artist 4'
-                path='/dashboard'
-              />
-              <SongCardItem
-                src='images/fillerimage.jpg'
-                text='song name 5'
-                label='Artist 5'
-                path='/dashboard'
-              />
-              <SongCardItem
-                src='images/fillerimage.jpg'
-                text='song name 6'
-                label='Artist 6'
-                path='/dashboard'
-              />
-              <SongCardItem
-                src='images/fillerimage.jpg'
-                text='song name 7'
-                label='Artist 7'
-                path='/dashboard'
-              />
+              <Box>
+                <CardItems
+                  src='images/fillerimage.jpg'
+                  songname='Song name 1'
+                  artist='Artist 1'
+                  path='/dashboard'
+                  />
+                  <Flex justify='space-between'>
+                    <AddToPlaylist />
+                    <EditSongDetails 
+                      songname='Song name 1'
+                      artist='Artist 1'/> 
+                  </Flex>
+              </Box>
+
+              <Box>
+                <CardItems
+                  src='images/fillerimage.jpg'
+                  songname='Song name 2'
+                  artist='Artist 2'
+                  path='/dashboard'
+                  />
+                    <Flex justify='space-between'>
+                      <AddToPlaylist />
+                      <EditSongDetails 
+                        songname='Song name 2'
+                        artist='Artist 2'/> 
+                    </Flex>
+              </Box>
+
+              <Box>
+                <CardItems
+                  src='images/fillerimage.jpg'
+                  songname='Song name 3'
+                  artist='Artist 3'
+                  path='/dashboard'
+                  />
+                    <Flex justify='space-between'>
+                      <AddToPlaylist />
+                      <EditSongDetails 
+                        songname='Song name 3'
+                        artist='Artist 3'/> 
+                    </Flex>
+              </Box>
+
+              <Box>
+                <CardItems
+                  src='images/fillerimage.jpg'
+                  songname='Song name 4'
+                  artist='Artist 4'
+                  path='/dashboard'
+                  />
+                    <Flex justify='space-between'>
+                      <AddToPlaylist />
+                      <EditSongDetails 
+                        songname='Song name 4'
+                        artist='Artist 4'
+                        /> 
+                    </Flex>
+              </Box>
+
             </SimpleGrid>
           </ul>
         </div>
-      </div>
-    </div>
+      </Box>
+      </Flex>
+    </>
   );
 }
 
