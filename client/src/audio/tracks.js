@@ -7,14 +7,7 @@ import test from "./test.ogg";
 // import silence from "./1-hour-of-silence.ogg";
 
 const tracks = [
-  // {
-  //   title: "",
-  //   artist: "",
-  //   audioSrc: silence,
-  //   image: imgSrc,
-  //   color: "#000000",
-  // },
-
+  
   {
     title: "attacked by apes",
     artist: "black's beach",
