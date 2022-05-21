@@ -10,15 +10,21 @@ const trackSchema = new Schema({
   },
   artist: {
     type: String,
+    required: true,
+    trim: true
   },
   album: {
     type: String,
+    required: true,
+    trim: true
   },
-  imageSrc: {
+  image: {
     type: String,
+    default: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
   },
   audioSrc: {
     type: String,
+    required: true,
   }
 });
 

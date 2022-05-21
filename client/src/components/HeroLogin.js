@@ -23,6 +23,8 @@ import {
   useDisclosure,
   HStack,
   FormLabel,
+  Checkbox,
+  Link,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 
@@ -104,20 +106,20 @@ function HeroSection() {
         alignItems="center"
       >
         <Heading color="white">Wanna Jam To Music</Heading>
-        <Box minW={{ base: "90%", md: "468px" }}>
+        <Box  minW={{ base: "90%", md: "468px" }}>
             <Stack
               spacing={4}
               p="1rem"
               backgroundColor="whiteAlpha.900"
               boxShadow="md"
             >
-              <FormControl>
+              <FormControl >
                 <InputGroup>
                   <InputLeftElement
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input type="email" placeholder="email address" />
+                  <Input type="email" placeholder="Enter Your Email address" />
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -129,7 +131,7 @@ function HeroSection() {
                   />
                   <Input
                     type={showPassword ? "text" : "password"}
-                    placeholder="Password"
+                    placeholder="Enter Your Password"
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
@@ -148,6 +150,16 @@ function HeroSection() {
               >
                 Login
               </Button>
+                <Stack isInline justifyContent='space-between' color="gray.500">
+                  <Box>
+                    <Checkbox >
+                      Remember Me
+                    </Checkbox>
+                  </Box>
+                  <Box>
+                    <Link color="blue.400">Forgot Your Password?</Link>
+                  </Box>
+                </Stack>
             </Stack>
         </Box>
       </Stack>

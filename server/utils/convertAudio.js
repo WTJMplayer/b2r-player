@@ -1,27 +1,26 @@
-const ffmpeg = require('fluent-ffmpeg');
-ffmpeg.setFfmpegPath('./ffmpeg/bin/ffmpeg.exe');
-ffmpeg.setFfprobePath('./ffmpeg/bin/ffprobe.exe');
+const ffmpeg = require("fluent-ffmpeg");
+ffmpeg.setFfmpegPath("./ffmpeg/bin/ffmpeg.exe");
+ffmpeg.setFfprobePath("./ffmpeg/bin/ffprobe.exe");
 
 //convert a file
 
-ffmpeg()
-    .input('../../client/src/audio/1-hour-of-silence.mp3')
-    .save('../../client/src/audio/1-hour-of-silence.ogg')
+// ffmpeg()
+//   .input("../../client/src/audio/1-hour-of-silence.mp3")
+//   .save("../../client/src/audio/1-hour-of-silence.ogg");
 
-
-
-
-// export default function convertAudio(file, fileName) {
-//     return new Promise((resolve, reject) => {
-//         ffmpeg(file)
-//             .save(`./audio/${fileName}.ogg`)
-//             .on('end', () => {
-//                 resolve(true);
-//                 console.log('converted it boiiii');
-//             })
-//             .on('error', (err) => {
-//                 reject(err);
-//                 console.log('oopsie', err);
-//             });
-//     });
-// }
+module.exports = {
+  convertAudio(file, fileName) {
+    return new Promise((resolve, reject) => {
+      ffmpeg(file)
+        .save(`./audio/${fileName}.ogg`)
+        .on("end", () => {
+          resolve(true);
+          console.log("converted it boiiii");
+        })
+        .on("error", (err) => {
+          reject(err);
+          console.log("oopsie", err);
+        });
+    });
+  },
+};

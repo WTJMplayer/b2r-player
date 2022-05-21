@@ -1,47 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AudioControls from './AudioControls'
 import Backdrop from './Backdrop'
-import { Howl, } from 'howler'
-import silence from '../audio/1-hour-of-silence.ogg'
+import quiet from '../audio/quiet'
+
 const AudioPlayer = ({ tracks }) => {
+  // state
+  const [queue, setQueue] = useState(tracks.map((track) => ({ ...track })))
   const [trackIndex, setTrackIndex] = useState(0)
   const [trackProgress, setTrackProgress] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
-
-  const { title, artist, color, image } = tracks[trackIndex]
+  const [isMuted, setIsMuted] = useState(true)
+  const { title, artist, color, image } = queue[trackIndex]
+  const [volume, setVolume] = useState(1)
 
   //refs
-  const indexRef = useRef(trackIndex)
-  const queue = useRef(tracks.map((track) => track.audioSrc))
-  const audioRef = useRef(
-    new Howl({
-      src: [silence],
-      usingWebAudio: true,
-      html5: true,
-      format: ['ogg'],
-      preload: false,
-      autoplay: true,
-      mute: true,
 
-      onend: () => {
-        console.log('onend hook called')
-        toNextTrack()
-      },
-      onload: () => {
-        console.log('onload hook called')
-        durationRef.current = audioRef.current.duration()
-        audioRef.current._sounds[0]._stop = durationRef.current
-        // audioRef.current.play()
-        setTrackProgress(0)
-      },
-    }),
-  )
-
-  const init = useRef(true)
-  const count = useRef(0)
+  
+  const queueRef = useRef(queue)
+  const audioRef = useRef(new Audio(queue[0].audioSrc))
+  audioRef.current.muted = isMuted
   const intervalRef = useRef()
-  const trackId = useRef()
-  const durationRef = useRef(0)
+  const durationRef = useRef(audioRef.current.duration)
 
   const currentPercentage = durationRef.current
     ? `${(trackProgress / durationRef.current) * 100}%`
@@ -52,115 +31,81 @@ const AudioPlayer = ({ tracks }) => {
   const startTimer = () => {
     clearInterval(intervalRef.current)
     intervalRef.current = setInterval(() => {
-      setTrackProgress(audioRef.current.seek(trackId.current))
+      setTrackProgress(audioRef.current.currentTime)
     }, [1000])
   }
 
   const onScrub = (value) => {
     clearInterval(intervalRef.current)
-    audioRef.current.seek(value)
-    audioRef.current.seek(trackId.current)
-    setTrackProgress(audioRef.current.seek(trackId.current))
+    audioRef.current.currentTime = value
+    setTrackProgress(value)
   }
 
   const onScrubEnd = () => {
     startTimer()
   }
 
-  const toPrevTrack = () => {
+  const toPrevTrack = useCallback(() => {
     setIsPlaying(false)
-    if (indexRef.current - 1 < 0) {
-      setTrackIndex(queue.current.length - 1)
+    if (trackIndex - 1 < 0) {
+      setTrackIndex(queueRef.current.length - 1)
     } else {
-      setTrackIndex(indexRef.current - 1)
+      setTrackIndex(trackIndex - 1)
     }
-  }
+  }, [trackIndex])
 
-  const toNextTrack = () => {
+  const toNextTrack = useCallback(() => {
     setIsPlaying(false)
-
-    console.log(`trackIndex before updating: ${indexRef.current}`)
-    if (indexRef.current === queue.current.length - 1) {
+    if (trackIndex === queueRef.current.length - 1) {
       setTrackIndex(0)
-      console.log(`end of playlist trackIndex: ${trackIndex}`)
     } else {
-      setTrackIndex(indexRef.current + 1)
-      console.log(`trackIndex: ${trackIndex}`)
+      setTrackIndex(trackIndex + 1)
     }
-  }
+  }, [trackIndex])
+
+  useEffect(() => {
+    if (audioRef.current.muted) {
+      audioRef.current.muted = false
+    } else {
+      audioRef.current.muted = true
+    }
+  }, [isMuted])
+
+  useEffect(() => {
+    if (audioRef.current.volume !== volume) {
+      audioRef.current.volume = volume
+    }
+  }, [volume])
 
   useEffect(() => {
     console.log(`isPlaying state changed to ${isPlaying}`)
 
-    if (init.current) {
-      console.log('initial render, skipping useEffect')
-      return
+    if (isPlaying) {
+      audioRef.current.play()
+      startTimer()
     } else {
-      console.log('post initial render, calling useEffect')
-
-      if (isPlaying) {
-        audioRef.current.play(trackId.current)
-
-        setTrackProgress(audioRef.current.seek(trackId.current))
-
-        startTimer()
-
-        console.log(
-          `expected duration value:${audioRef.current.duration()} actual:${
-            durationRef.current
-          }`,
-        )
-      } else {
-        audioRef.current.pause()
-        clearInterval(intervalRef.current)
-      }
+      audioRef.current.pause()
+      clearInterval(intervalRef.current)
     }
   }, [isPlaying])
-
+useEffect(() => {
+  queueRef.current = queue
+}, [queue])
   useEffect(() => {
-    setTrackProgress(0)
     console.log(`trackIndex state changed to ${trackIndex}`)
-    if (init.current) {
-      console.log('initial render, skipping some trackIndex hooks')
-      if (count.current === 1) {
-      }
-      count.current++
-
-      if (count.current === 2) {
-        
-        audioRef.current.load()
-        
-        audioRef.current.seek(3599.99)
-      }
-      if (count.current === 3) {
-        init.current = false
-        setTrackIndex(0)
-        count.current++
-      }
-    } else {
-      indexRef.current = trackIndex
-      console.log('post initial render, calling all trackIndex hooks')
-      setIsPlaying(false)
-      
-      
-      audioRef.current.unload()
-      audioRef.current._src = queue.current[trackIndex]
-
-      audioRef.current.load()
-      audioRef.current._duration = durationRef.current
-      trackId.current = audioRef.current._sounds[0]._id
-
-       if(count.current === 4) {
-        count.current++
-        audioRef.current.mute(false)
-        return
-      }
-
+    audioRef.current.pause()
+    audioRef.current.src = queueRef.current[trackIndex].audioSrc
+    audioRef.current.load()
+    durationRef.current = audioRef.current.duration
+    audioRef.current.addEventListener('canplaythrough', () => {
       setIsPlaying(true)
+    })
+    audioRef.current.addEventListener('ended', () => {
+      toNextTrack()
+    })
 
-      startTimer()
-    }
-  }, [trackIndex, tracks])
+    startTimer()
+  }, [trackIndex, toNextTrack])
 
   return (
     <div className="audio-player">
@@ -184,18 +129,43 @@ const AudioPlayer = ({ tracks }) => {
         isPlaying={isPlaying}
         onPrevClick={toPrevTrack}
         onNextClick={toNextTrack}
-        onPlayPauseClick={setIsPlaying}
+        onPlayPauseClick={() => setIsPlaying(!isPlaying)}
       />
       <input
         type="range"
         className="progress"
         min="0"
-        max={durationRef.current}
+        max={audioRef.current.duration}
         value={trackProgress}
         onChange={(e) => onScrub(e.target.value)}
         onMouseUp={onScrubEnd}
         onKeyUp={onScrubEnd}
         style={{ background: trackStyling }}
+      />
+      <input
+        type="button"
+        className="queue-push-test"
+        value="Add to Queue"
+        onClick={() => {
+          tracks.push(quiet[0])
+          setQueue([...tracks])
+          queueRef.current = queue
+        }}
+      />
+      <input
+        type="checkbox"
+        className="mute"
+        value={isMuted}
+        onClick={() => setIsMuted(!isMuted)}
+      />
+      <input
+        type="range"
+        className="volume"
+        min="0"
+        max="1"
+        step="0.1"
+        value={volume}
+        onChange={(e) => setVolume(e.target.value)}
       />
     </div>
   )
