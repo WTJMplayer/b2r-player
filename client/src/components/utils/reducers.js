@@ -13,7 +13,7 @@ import {
 export default function reducer(state, action) {
   switch (action.type) {
     case CREATE_PLAYLIST: {
-      const newPlaylistId = state.students[state.students.length - 1].id + 1;
+      const newPlaylistId = state.playlists[state.playlists.length - 1].id + 1;
 
       const newPlaylist = { ...action.payload, id: newPlaylistId };
 
@@ -37,11 +37,11 @@ export default function reducer(state, action) {
       );
 
       const updatedPlaylist = {
-        ...state.students[playlistIndex],
+        ...state.playlists[playlistIndex],
         ...action.payload,
       };
 
-      const newPlaylist = [...state.students];
+      const newPlaylist = [...state.playlists];
 
       newPlaylist[playlistIndex] = updatedPlaylist;
 

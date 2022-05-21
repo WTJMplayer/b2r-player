@@ -6,6 +6,8 @@ type Profile {
     name: String
     email: String
     password: String
+    tracks: [Track]
+    playlists: [Playlist]
 }
 type Track {
     _id: ID
@@ -28,7 +30,8 @@ type Query {
     tracks: [Track]
     playlists: [Playlist]
     track(_id: ID!): Track
-    playlist: (_id: ID!): Playlist
+    playlist(_id: ID!): Playlist
+    profile(_ID: ID!): Profile
 }
 type Auth {
     token: ID
@@ -37,6 +40,8 @@ type Auth {
 type Mutation {
     addProfile(name: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
+    addTrack(title: String!, artist: String!, album: String!, imageSrc: String!, audioSrc: String!): Track
+    addPlaylist(name: String!, author: [ID]!, createdDate: String!): Playlist
 }
 `;
 

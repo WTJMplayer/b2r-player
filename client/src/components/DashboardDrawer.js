@@ -14,6 +14,7 @@ import {
     Heading,
     Stack,
   } from '@chakra-ui/react';
+import UserProfileEdit from './EditAccount';
 
 function DashboardDrawer() {
 const { isOpen, onOpen, onClose } = useDisclosure()
@@ -21,9 +22,9 @@ const btnRef = React.useRef()
 
     return (
         <>
-        <Button ref={btnRef} colorScheme='blue' onClick={onOpen}>
+        <Box ref={btnRef} onClick={onOpen}>
             My Account
-        </Button>
+        </Box>
         <Drawer
             isOpen={isOpen}
             placement='left'
@@ -40,7 +41,7 @@ const btnRef = React.useRef()
             <DrawerBody>
                 <Stack spacing='24px'>
                 <Button>
-                    Edit Account 
+                    <UserProfileEdit />
                 </Button>
 
                 <SimpleGrid columns={1} spacingY='10px'>

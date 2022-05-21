@@ -12,7 +12,7 @@ const playlistSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: 'Profile'
-    }
+    },
   ],
   createdDate: {
     type: Date,

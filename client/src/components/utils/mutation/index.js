@@ -40,45 +40,35 @@ export const ADD_PLAYLIST = gql`
     $name: String!,
     $author: String!,
     $createdDate: Date!
-    $tracks: [ID]!,
     ) {
     addPlaylist(
       name: $name,
       author: $author,
       createdDate: $createdDate,
-      tracks: $tracks,
       ) {
       name
       author
       createdDate
-      tracks {
-        _id
-        name
-        artist
-        album
-        imgSrc
-        audioSrc
-      }
     }
   }
 `;
 
 export const ADD_TRACK = gql`
   mutation addTrack(
-    $name: String!,
+    $title: String!,
     $artist: String!,
     $album: String!,
     $imgSrc: String!,
     $audioSrc: String!
     ) {
     addTrack(
-      name: $name,
+      title: $title,
       artist: $artist,
       album: $album,
       imgSrc: $imgSrc,
       audioSrc: $audioSrc
       ) {
-      name
+      title
       artist
       album
       imgSrc

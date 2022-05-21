@@ -5,8 +5,8 @@ ffmpeg.setFfprobePath('./ffmpeg/bin/ffprobe.exe');
 //convert a file
 
 ffmpeg()
-    .input('../../client/src/audio/acid.wav')
-    .save('../../client/src/audio/acid.ogg')
+    .input('../../client/src/audio/1-hour-of-silence.mp3')
+    .save('../../client/src/audio/1-hour-of-silence.ogg')
 
 
 

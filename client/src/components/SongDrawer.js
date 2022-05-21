@@ -22,9 +22,9 @@ function SongDrawer() {
   
     return (
       <>
-        <Button colorScheme='blue' onClick={onOpen}>
+        <Box onClick={onOpen}>
           Add a song
-        </Button>
+        </Box>
         <Drawer
           isOpen={isOpen}
           placement='right'
