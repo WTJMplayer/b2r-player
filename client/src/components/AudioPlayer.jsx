@@ -2,6 +2,14 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AudioControls from './AudioControls'
 import Backdrop from './Backdrop'
 import quiet from '../audio/quiet'
+import {
+  VStack ,
+  VisuallyHidden,
+  ControlBox,
+  Icon,
+  Box,
+} from '@chakra-ui/react'
+import { CheckIcon } from '@chakra-ui/icons'; 
 
 const AudioPlayer = ({ tracks }) => {
   // state
@@ -131,6 +139,7 @@ useEffect(() => {
         onNextClick={toNextTrack}
         onPlayPauseClick={() => setIsPlaying(!isPlaying)}
       />
+      {/* Progress bar */}
       <input
         type="range"
         className="progress"
@@ -142,6 +151,7 @@ useEffect(() => {
         onKeyUp={onScrubEnd}
         style={{ background: trackStyling }}
       />
+      {/* Queue Setup */}
       <input
         type="button"
         className="queue-push-test"
@@ -152,21 +162,38 @@ useEffect(() => {
           queueRef.current = queue
         }}
       />
-      <input
-        type="checkbox"
-        className="mute"
-        value={isMuted}
-        onClick={() => setIsMuted(!isMuted)}
-      />
+      {/* Mute Button */}
+      <VStack>
+        <VisuallyHidden></VisuallyHidden>
+        <label>
+        <VisuallyHidden as="input" type="checkbox"/>
+          <ControlBox
+                    borderWidth="1px"
+                    size="24px"
+                    rounded="sm"
+                    _checked={{ bg: "red", color: "black", borderColor: "red" }}
+                    _focus={{ borderColor: "green.600", boxShadow: "outline" }}
+                    value={isMuted}
+                    onClick={() => setIsMuted(!isMuted)}
+                  >
+                    <Icon as={CheckIcon} name="check" size="16px" />
+          </ControlBox>
+  <Box as="span" verticalAlign="top" ml={3}>
+        Mute
+  </Box>
+</label>
+
+      {/* Volume Slider */}
       <input
         type="range"
         className="volume"
         min="0"
         max="1"
-        step="0.1"
+        step="0.01"
         value={volume}
         onChange={(e) => setVolume(e.target.value)}
       />
+    </VStack>
     </div>
   )
 }
