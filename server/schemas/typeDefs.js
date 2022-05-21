@@ -51,6 +51,7 @@ type Mutation {
     addProfile(name: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addTrack(title: String!, artist: String!, album: String!, image: String!, audioSrc: String!): Track
+    addPlaylist(name: String!, createdDate: String!): Playlist
 }
 `;
 
