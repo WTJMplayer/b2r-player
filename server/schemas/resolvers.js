@@ -68,6 +68,9 @@ const resolvers = {
         addPlaylist: async (parent, { name, author}) => {
             return await Playlist.create({ name, author});
         },
+        addToPlaylist: async(parent, {_id, trackId}) => {
+            return await Playlist.findByIdAndUpdate(_id, {$push: {tracks:trackId}}, { new: true })
+        }
     },
 };
 
