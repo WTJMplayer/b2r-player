@@ -4,9 +4,9 @@ import HeroLogin from '../HeroLogin';
 
 function Home() {
   return (
-    <>
+    <div className='home-container'>
       <HeroLogin />
-    </>
+    </div>
   );
 }
 

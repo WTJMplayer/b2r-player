@@ -14,7 +14,6 @@ import {
     Input, 
     Button,
   } from '@chakra-ui/react'
-  import SongCards from './SongCards';
 
   function MakePlaylist() {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -24,7 +23,7 @@ import {
       <>
         <Box onClick={onOpen}>Make a Playlist</Box>
   
-        <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={scrollBehavior}>
+        <Modal isOpen={isOpen} onClose={onClose} scrollBehavior={scrollBehavior} isCentered>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader borderBottomWidth='1px'>Make a Playlist</ModalHeader>
@@ -39,12 +38,6 @@ import {
                     placeholder='Please enter a playlist name'
                   />
                 </Box>
-    
-                <Box>
-                    <FormLabel htmlFor='songs'>Add your song(s)!</FormLabel>
-                    <SongCards />
-                </Box>
-
               </Stack>
             </ModalBody>
   

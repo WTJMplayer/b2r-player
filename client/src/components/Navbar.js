@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 import SongDrawer from './SongDrawer';
 import DashboardDrawer from './DashboardDrawer';
-import MakePlaylist from './MakePlaylist';
+import MakePlaylistForm from './forms/MakePlaylistForm';
 import { FiMusic } from 'react-icons/fi'
 
 
@@ -47,7 +47,7 @@ function Navbar() {
             </li>
 
             <li className='nav-links'>
-              <MakePlaylist />
+              <MakePlaylistForm />
             </li>
 
           </ul>

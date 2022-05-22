@@ -1,5 +1,5 @@
 import React from "react";
-import MakePlaylist from './MakePlaylist';
+import MakePlaylistForm from './forms/MakePlaylistForm';
 import {
     Menu,
     MenuButton,
@@ -8,7 +8,7 @@ import {
     Button,
   } from '@chakra-ui/react'
 
-import { ChevronDownIcon } from '@chakra-ui/icons'
+import { AddIcon } from '@chakra-ui/icons'
 
 
 
@@ -16,14 +16,14 @@ function AddToPlaylist() {
 
     return(
         <Menu>
-        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-            Add to Playlist
+        <MenuButton as={Button}>
+            <AddIcon />
         </MenuButton>
         <MenuList>
             <MenuItem>Playlist 1</MenuItem>
             <MenuItem>Playlist 2</MenuItem>
             <MenuItem>Playlist 3</MenuItem>
-            <MenuItem> <MakePlaylist /> </MenuItem>
+            <MenuItem> <MakePlaylistForm /> </MenuItem>
         </MenuList>
         </Menu>
     );
