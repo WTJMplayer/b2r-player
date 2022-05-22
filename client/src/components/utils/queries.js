@@ -7,6 +7,7 @@ export const QUERY_ALL_TRACKS = gql`
       title
       artist
       album
+      explicit
       image
       audioSrc
       color
@@ -28,6 +29,7 @@ export const QUERY_ALL_PLAYLISTS = gql`
         title
         artist
         album
+        explicit
         image
         audioSrc
         color
@@ -50,6 +52,7 @@ query Playlist($id: ID!) {
       title
       artist
       album
+      explicit
       image
       audioSrc
       color
@@ -65,6 +68,7 @@ query Track($id: ID!) {
     title
     artist
     album
+    explicit
     image
     audioSrc
     color
