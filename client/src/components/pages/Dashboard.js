@@ -5,6 +5,8 @@ import ArtistCards from '../ArtistCards';
 import {
     Heading,
     Center,
+    Flex,
+    VStack,
 } from '@chakra-ui/react';
 
 
@@ -14,20 +16,22 @@ function Dashboard() {
 // Need to add auth code so it only shows when user is logged in
 
     return (
-        <div>  
-            <Center>
-                <Heading>
-                    Newest Song Uploads!
-                </Heading>
-            </Center>
-            <SongCards />
-            <Center>
-                <Heading>
-                    Artists
-                </Heading>
-            </Center>
-            <ArtistCards />
-        </div>    
+        <Flex className="dashboard-container" justify="center" align="center">  
+            <VStack pb='20vh' pt='5vh'>
+                <Center>
+                    <Heading color='white'>
+                        Newest Song Uploads!
+                    </Heading>
+                </Center>
+                <SongCards />
+                <Center>
+                    <Heading color='white'>
+                        Artists
+                    </Heading>
+                </Center>
+                <ArtistCards />
+            </VStack>
+        </Flex>   
     );
 }
 

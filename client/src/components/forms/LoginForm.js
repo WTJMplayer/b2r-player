@@ -68,8 +68,8 @@ const LoginForm = (props) => {
   return (
     <Flex
       flexDirection="column"
-      width="100wh"
-      height="100vh"
+      width="70wh"
+      height="70vh"
       backgroundColor="black"
       justifyContent="center"
       alignItems="center"
@@ -87,6 +87,7 @@ const LoginForm = (props) => {
             p="1rem"
             backgroundColor="whiteAlpha.900"
             boxShadow="md"
+            rounded='lg'
           >
             <FormControl>
               <InputGroup>
@@ -135,7 +136,7 @@ const LoginForm = (props) => {
               Login
             </Button>
           </Stack>
-          <Center>
+          <Center pt={3}>
             <SignupForm />
           </Center>
           

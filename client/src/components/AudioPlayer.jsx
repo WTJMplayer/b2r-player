@@ -7,7 +7,8 @@ import {
   VisuallyHidden,
   ControlBox,
   Icon,
-  Box,
+  HStack,
+  Text,
 } from '@chakra-ui/react'
 import { CheckIcon } from '@chakra-ui/icons'; 
 
@@ -166,6 +167,7 @@ useEffect(() => {
       <VStack>
         <VisuallyHidden></VisuallyHidden>
         <label>
+        <HStack>
         <VisuallyHidden as="input" type="checkbox"/>
           <ControlBox
                     borderWidth="1px"
@@ -178,10 +180,9 @@ useEffect(() => {
                   >
                     <Icon as={CheckIcon} name="check" size="16px" />
           </ControlBox>
-  <Box as="span" verticalAlign="top" ml={3}>
-        Mute
-  </Box>
-</label>
+              <Text ml={2}>Mute </Text>
+          </HStack>
+        </label>
 
       {/* Volume Slider */}
       <input
