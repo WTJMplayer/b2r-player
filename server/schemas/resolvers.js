@@ -73,7 +73,14 @@ const resolvers = {
         },
         removeFromPlaylist: async(parent, {_id, trackId}) => {
             return await Playlist.findByIdAndUpdate(_id, {$pull: {tracks:trackId}}, { new: true })
+        },
+        deleteTrack: async(parent, _id) => {
+            return await Track.deleteOne(_id);
+        },
+        deletePlaylist: async(parent, _id) => {
+            return await Playlist.deleteOne(_id);
         }
+
     },
 };
 
