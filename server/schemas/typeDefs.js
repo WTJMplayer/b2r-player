@@ -14,6 +14,7 @@ type Track {
     title: String!
     artist: String!
     album: String!
+    explicit: Boolean!
     image: String
     audioSrc: String!
     color: String
@@ -42,7 +43,7 @@ type Auth {
 type Mutation {
     addProfile(name: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addTrack(title: String!, artist: String!, album: String!, image: String!, audioSrc: String!, color: String): Track
+    addTrack(title: String!, artist: String!, album: String!, explicit: Boolean!, image: String!, audioSrc: String!, color: String): Track
     addPlaylist(name: String!, author: ID!): Playlist
     addToPlaylist(_id: ID!, trackId: ID!): Playlist
     removeFromPlaylist(_id: ID!, trackId: ID!): Playlist

@@ -36,6 +36,7 @@ db.once('open', async () => {
             title: 'bruh',
             artist: "sound effects",
             album: "album 4",
+            explicit: true,
             audioSrc: 'http://localhost:3001/public/audio/bruh.ogg',
             image: 'http://localhost:3001/public/images/logo192.jpg',
             color: "#ff00ff",        
@@ -50,7 +51,7 @@ db.once('open', async () => {
         {
             name: 'playlist 1',
             createdDate: '5/19/22',
-            tracks: [tracks[0]._id, tracks[3]._id]
+            tracks: [tracks[0]._id, tracks[1]._id]
         },
         {
             name: 'playlist 2',

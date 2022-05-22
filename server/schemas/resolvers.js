@@ -62,8 +62,8 @@ const resolvers = {
             const token = signToken(profile);
             return {token, profile};
         },
-        addTrack: async (parent, { title, artist, album, image, audioSrc, color }) => {
-            return await Track.create({ title, artist, album, image, audioSrc, color });
+        addTrack: async (parent, { title, artist, album, explicit, image, audioSrc, color }) => {
+            return await Track.create({ title, artist, album, explicit, image, audioSrc, color });
         },
         addPlaylist: async (parent, { name, author}) => {
             return await Playlist.create({ name, author});
