@@ -30,7 +30,6 @@ const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 
-
 const SignupForm = (props) => {
   const [showPassword, setShowPassword] = useState(false);
 

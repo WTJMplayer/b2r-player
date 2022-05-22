@@ -15,8 +15,10 @@ import {
   Box,
   FormControl,
   InputRightElement,
+  Center,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import SignupForm from "./SignupForm";
 
 const CFaUserAlt = chakra(FaUserAlt);
 
@@ -133,6 +135,10 @@ const LoginForm = (props) => {
               Login
             </Button>
           </Stack>
+          <Center>
+            <SignupForm />
+          </Center>
+          
         </Box>
       </Stack>
     </Flex>
