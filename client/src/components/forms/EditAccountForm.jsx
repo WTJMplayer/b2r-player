@@ -38,27 +38,17 @@ import {
               w={'full'}
               maxW={'md'}
               bg={useColorModeValue('white', 'gray.700')}
-              rounded={'xl'}
-              boxShadow={'lg'}
-              p={6}
-              my={12}>
+              >
 
-              <FormControl id="firstName" isRequired>
-                <FormLabel>First name</FormLabel>
+              <FormControl id="name" isRequired>
+                <FormLabel>Name</FormLabel>
                 <Input
-                  placeholder="First Name"
+                  placeholder="Name"
                   _placeholder={{ color: 'gray.500' }}
                   type="text"
                 />
               </FormControl>
-              <FormControl id="lastName" isRequired>
-                <FormLabel>Last name</FormLabel>
-                <Input
-                  placeholder="Last Name"
-                  _placeholder={{ color: 'gray.500' }}
-                  type="text"
-                />
-              </FormControl>
+
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
                 <Input
@@ -67,6 +57,7 @@ import {
                   type="email"
                 />
               </FormControl>
+
               <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
                 <Input
@@ -75,6 +66,7 @@ import {
                   type="password"
                 />
               </FormControl>
+              
             </Stack>
           </Flex>
           </ModalBody>

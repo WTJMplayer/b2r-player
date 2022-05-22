@@ -20,10 +20,11 @@ function CardItems(props) {
         <Link to={props.path}>
         <Box
           maxW="sm"
-          borderWidth="1px"
+          borderWidth="2px"
           rounded="lg"
           shadow="lg"
           position="relative"
+          backgroundColor='white'
           >
 
             <Image

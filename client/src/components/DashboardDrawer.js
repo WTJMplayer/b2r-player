@@ -14,7 +14,7 @@ import {
     Heading,
     Stack,
   } from '@chakra-ui/react';
-import UserProfileEdit from './EditAccount';
+import UserProfileEdit from './forms/EditAccountForm';
 
 function DashboardDrawer() {
 const { isOpen, onOpen, onClose } = useDisclosure()

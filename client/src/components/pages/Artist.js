@@ -12,12 +12,12 @@ function Artist() {
 
 
     return (
-        <>
+        <div className="artist-container">
         <Center>
-            <Heading m={3}> Artist</Heading>
+            <Heading m={3} color='white'> Artist</Heading>
         </Center>
         <Flex align='center' justify='center'>
-            <SimpleGrid columns={2} spacing={5}>
+            <SimpleGrid columns={[2, null, 3]} spacing={4}>
                 <CardItems
                     src='/images/fillerimage.jpg'
                     songname='Song name 1'
@@ -31,7 +31,7 @@ function Artist() {
             </SimpleGrid>    
         </Flex>
 
-        </>
+        </div>
     );
 }
 
