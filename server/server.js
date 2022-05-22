@@ -1,5 +1,6 @@
 const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
+const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
 const corsOptions = {
@@ -31,7 +32,23 @@ app.get("/", (req, res) => {
 });
 
 app.get('/public/audio/:audio', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/audio/' + req.params.audio));
+  const audio = req.params.audio;
+  try{
+    // const readstream = fs.createReadStream(path.join(__dirname, `/public/audio/${audio}`));
+    // readstream.pipe(res);
+    res.sendFile(path.join(__dirname, `/public/audio/${audio}`));
+  } catch(err){
+    console.error(err);
+  }
+});
+
+app.get('/public/images/:image', (req, res) => {
+  const image = req.params.image;
+  try{
+    res.sendFile(path.join(__dirname, `/public/images/${image}`));
+  } catch(err){
+    console.error(err)
+  }
 });
 
 

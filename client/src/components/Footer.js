@@ -9,6 +9,7 @@ import AudioPlayer from "./AudioPlayer";
 function Footer() {
   const { loading, data } = useQuery(QUERY_ALL_TRACKS, {
     fetchPolicy: "cache-and-network",
+    
   });
   let tracks =
     data?.tracks.map((track) => ({ ...track })) || []
