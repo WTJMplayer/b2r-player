@@ -41,7 +41,7 @@ const SignupForm = (props) => {
     email: "",
     password: "",
   });
-  const [addUser, { error, data }] = useMutation(ADD_PROFILE);
+  const [addProfile, { error, data }] = useMutation(ADD_PROFILE);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -57,7 +57,7 @@ const SignupForm = (props) => {
     console.log(formState);
 
     try {
-      const { data } = await addUser({
+      const { data } = await addProfile({
         variables: { ...formState },
       });
 
