@@ -7,7 +7,7 @@ import Home from "./components/pages/Home";
 import "./App.css";
 import Dashboard from "./components/pages/Dashboard";
 import Artist from "./components/pages/Artist";
-
+import  AudioUpload  from './components/AudioUpload'
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache(),
@@ -17,6 +17,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="container">
+        <AudioUpload />
         <Router>
           <Navbar />
           <Routes>

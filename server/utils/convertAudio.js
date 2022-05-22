@@ -9,10 +9,10 @@ ffmpeg.setFfprobePath("./ffmpeg/bin/ffprobe.exe");
 //   .save("../../client/src/audio/1-hour-of-silence.ogg");
 
 module.exports = {
-  convertAudio(file, fileName) {
+  convertAudio(user, file, fileName) {
     return new Promise((resolve, reject) => {
       ffmpeg(file)
-        .save(`./audio/${fileName}.ogg`)
+        .save(`./audio/${user}/${fileName}.ogg`)
         .on("end", () => {
           resolve(true);
           console.log("converted it boiiii");

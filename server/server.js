@@ -10,6 +10,7 @@ const corsOptions = {
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 const { authMiddleware } = require('./utils/auth');
+const { convertAudio } = require('./utils/convertAudio');
 
 const PORT = process.env.PORT || 3001;
 
@@ -48,6 +49,18 @@ app.get('/public/images/:image', (req, res) => {
     res.sendFile(path.join(__dirname, `/public/images/${image}`));
   } catch(err){
     console.error(err)
+  }
+});
+
+app.post('/public/audio/:user/:track', (req, res) => {
+  const user = req.params.user;
+  const track = req.params.track;
+  const filename = `${user}-${track}`;
+  try{
+    convertAudio(user.id, track, filename);
+    res.send('success');
+  } catch(err){
+    console.error(err);
   }
 });
 
