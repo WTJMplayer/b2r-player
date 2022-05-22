@@ -38,25 +38,14 @@ export const ADD_PROFILE = gql`
 export const ADD_PLAYLIST = gql`
   mutation addPlaylist(
     $name: String!,
-    $author: String!,
-    $createdDate: Date!
+    $author: ID!,
     ) {
     addPlaylist(
       name: $name,
       author: $author,
-      createdDate: $createdDate,
       ) {
       name
       author
-      createdDate
-      tracks {
-        _id
-        title
-        artist
-        album
-        image
-        audioSrc
-      }
     }
   }
 `;
@@ -81,6 +70,40 @@ export const ADD_TRACK = gql`
       album
       image
       audioSrc
+    }
+  }
+`;
+
+export const ADD_TO_PLAYLIST = gql `
+  mutation AddTrack($id: ID!, $trackId: ID!) {
+    addToPlaylist(_id: $id, trackId: $trackId) {
+      name
+    }
+  }
+
+`;
+
+export const REMOVE_FROM_PLAYLIST = gql `
+  mutation RemoveFromPlaylist($id: ID!, $trackId: ID!) {
+    removeFromPlaylist(_id: $id, trackId: $trackId) {
+      _id
+    }
+  }
+
+`;
+
+export const DELETE_TRACK = gql `
+  mutation DeleteTrack($id: ID!) {
+    deleteTrack(_id: $id) {
+      _id
+    }
+  }
+`;
+
+export const DELETE_PLAYLIST = gql `
+  mutation DeletePlaylist($id: ID!) {
+    deletePlaylist(_id: $id) {
+      _id
     }
   }
 `;

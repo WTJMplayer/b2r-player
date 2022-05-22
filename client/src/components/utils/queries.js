@@ -52,7 +52,22 @@ query Playlist($id: ID!) {
       album
       image
       audioSrc
+      color
     }
+  }
+}
+`;
+
+export const QUERY_TRACK_BY_ID = gql`
+query Track($id: ID!) {
+  Track(_id: $id) {
+    _id
+    title
+    artist
+    album
+    image
+    audioSrc
+    color
   }
 }
 `;
