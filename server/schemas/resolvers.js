@@ -32,12 +32,12 @@ const resolvers = {
     },
     Mutation: {
         addTrack: async (parent, args, context) => {
-            const track = await Track.create(args);
-                return track;
-            if (context.user) {
+            
+            if (!context.user) {
                 throw new AuthenticationError('You need to be logged in!');    
             }
-            
+            const track = await Track.create(args);
+                return track;
         },
         addProfile: async (parent, {name, email, password}) => {
             const profile = await Profile.create({ name, email, password});

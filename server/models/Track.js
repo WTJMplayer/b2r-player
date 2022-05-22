@@ -30,6 +30,7 @@ const trackSchema = new Schema({
     type: String,
     default: '#ffffff'
   }
+  
 });
 
 const Track = mongoose.model('Track', trackSchema);
