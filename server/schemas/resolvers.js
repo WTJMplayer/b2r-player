@@ -70,6 +70,9 @@ const resolvers = {
         },
         addToPlaylist: async(parent, {_id, trackId}) => {
             return await Playlist.findByIdAndUpdate(_id, {$push: {tracks:trackId}}, { new: true })
+        },
+        removeFromPlaylist: async(parent, {_id, trackId}) => {
+            return await Playlist.findByIdAndUpdate(_id, {$pull: {tracks:trackId}}, { new: true })
         }
     },
 };
