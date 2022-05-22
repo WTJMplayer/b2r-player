@@ -7,8 +7,9 @@ export const QUERY_ALL_TRACKS = gql`
       title
       artist
       album
-      imageSrc
+      image
       audioSrc
+      color
     }
   }
 `;
@@ -27,8 +28,9 @@ export const QUERY_ALL_PLAYLISTS = gql`
         title
         artist
         album
-        imageSrc
+        image
         audioSrc
+        color
       }
     }
   }
@@ -48,7 +50,7 @@ query Playlist($id: ID!) {
       title
       artist
       album
-      imageSrc
+      image
       audioSrc
     }
   }

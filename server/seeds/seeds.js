@@ -1,6 +1,6 @@
 const db = require('../config/connection');
 const { Playlist, Profile, Track } = require('../models');
-
+import apes from '../public/audio/apes.ogg';
 db.once('open', async () => {
     await Track.deleteMany();
   
@@ -9,8 +9,8 @@ db.once('open', async () => {
             title: 'attacked by apes',
             artist: "black's beach",
             album: "album 1",
-            audioSrc: '../../client/src/audio/apes.ogg',
-            imageSrc: '../../client/images/bbcover.jpg',
+            audioSrc: `/public/audio/apes.ogg`,
+            image: '../../client/images/bbcover.jpg',
             color: "#ff0000",
         },
         {
@@ -18,7 +18,7 @@ db.once('open', async () => {
             artist: "black's beach",
             album: "album 2",
             audioSrc: '../../client/src/audio/acid.ogg',
-            imageSrc: '../../client/images/bbcover.jpg',
+            image: '../../client/images/bbcover.jpg',
             color: "#00ff00",
         },
         {
@@ -26,7 +26,7 @@ db.once('open', async () => {
             artist: "test",
             album: "album 3",
             audioSrc: '../../client/src/audio/test.ogg',
-            imageSrc: '../../client/images/logo192.jpg',
+            image: '../../client/images/logo192.jpg',
             color: "#ff00ff",        
         },
         {
@@ -34,7 +34,7 @@ db.once('open', async () => {
             artist: "sound effects",
             album: "album 4",
             audioSrc: '../../client/src/audio/bruh.ogg',
-            imageSrc: '../../client/images/logo192.jpg',
+            image: '../../client/images/logo192.jpg',
             color: "#ff00ff",        
         },
     ]);

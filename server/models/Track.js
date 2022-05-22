@@ -25,6 +25,10 @@ const trackSchema = new Schema({
   audioSrc: {
     type: String,
     required: true,
+  },
+  color: {
+    type: String,
+    default: '#ffffff'
   }
 });
 

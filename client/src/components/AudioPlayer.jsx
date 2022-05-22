@@ -87,7 +87,7 @@ const AudioPlayer = ({ tracks }) => {
 
   useEffect(() => {
     console.log(`isPlaying state changed to ${isPlaying}`)
-
+    console.log(audioRef.current.currentSrc)
     if (isPlaying) {
       audioRef.current.play()
       startTimer()

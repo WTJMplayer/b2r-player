@@ -15,7 +15,7 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
         tracks: async () => {
-            return await Track.find();
+            return Track.find({});
         },
         track: async (parent, { _id }) => {
             return await Track.findById(_id);
@@ -61,8 +61,8 @@ const resolvers = {
             const token = signToken(profile);
             return {token, profile};
         },
-        addTrack: async (parent, { title, artist, album, imageSrc, audioSrc }) => {
-            return await Track.create({ title, artist, album, imageSrc, audioSrc });
+        addTrack: async (parent, { title, artist, album, image, audioSrc, color }) => {
+            return await Track.create({ title, artist, album, image, audioSrc, color });
         },
         addPlaylist: async (parent, { name, author, createdDate}) => {
             return await Track.create({ name, author, createdDate});

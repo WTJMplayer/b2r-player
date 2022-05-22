@@ -12,7 +12,7 @@ db.once('open', async () => {
             title: 'attacked by apes',
             artist: "black's beach",
             album: "album 1",
-            audioSrc: '../../client/src/audio/apes.ogg',
+            audioSrc: 'localhost:3001/public/audio/apes.ogg',
             image: '../../client/images/bbcover.jpg',
             color: "#ff0000",
         },
