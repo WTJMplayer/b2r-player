@@ -64,8 +64,8 @@ const resolvers = {
         addTrack: async (parent, { title, artist, album, image, audioSrc, color }) => {
             return await Track.create({ title, artist, album, image, audioSrc, color });
         },
-        addPlaylist: async (parent, { name, author, createdDate}) => {
-            return await Track.create({ name, author, createdDate});
+        addPlaylist: async (parent, { name, author}) => {
+            return await Playlist.create({ name, author});
         },
     },
 };
