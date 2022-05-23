@@ -1,26 +1,32 @@
 import React from 'react'
-import { useFilePicker } from 'use-file-picker'
-import { useQuery } from '@apollo/client'
-import { ADD_TRACK } from './utils/mutation/index'
+import { useMutation } from '@apollo/client'
+import { SINGLE_UPLOAD } from './utils/mutation/index'
 
 const AudioUpload = () => {
-  const [openFilePicker, { filesContent, uploading }] = useFilePicker({
-    accept: 'audio/*',
-    multiple: false,
-  })
-  
+  const [singleUpload] = useMutation(SINGLE_UPLOAD)
+  function onChange({
+    target: {
+      validity, 
+      files: [file],
+    },
+    
+  }) {
+    if (validity.valid) {
+      console.log(file)
+      singleUpload({ variables: { file } })
+    }
+  }
 
-  if (uploading) return <p>Uploading file...</p>
 
   return (
     <div>
-      <button onClick={() => openFilePicker()}>Upload File</button>
-      <br />
-      {filesContent.map((file, index) => {
-        return <p key={index}>{file.name}</p>
-      }
-      )}
+      <input
+        type="file"
+        accept="audio/*"
+        required
+        onChange={onChange}
+      />
     </div>
   )
-  }
+}
 export default AudioUpload

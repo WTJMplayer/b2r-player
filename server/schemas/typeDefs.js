@@ -1,6 +1,15 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql `
+scalar Upload
+
+type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+}
+
+
 type Profile {
     _id: ID!
     name: String
@@ -41,6 +50,7 @@ type Auth {
     profile: Profile
 }
 type Mutation {
+    singleUpload(file: Upload!): File!
     addProfile(name: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addTrack(title: String!, artist: String!, album: String!, explicit: Boolean!, image: String!, audioSrc: String!, color: String): Track

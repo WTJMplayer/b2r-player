@@ -145,13 +145,11 @@ const AudioPlayer = ({ tracks, safeMode }) => {
   }, [queue])
 
   useEffect(() => {
-    console.log('safeMode changed to', safeMode)
     if (safeMode) {
       setQueue(queueRef.current.filter((track) => !track.explicit))
     } else {
       setQueue(tracks.map((track) => ({ ...track })))
     }
-    console.log(queueRef.current)
   }, [safeMode])
 
   useEffect(() => {

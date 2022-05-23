@@ -9,8 +9,11 @@ const corsOptions = {
 };
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
-const { authMiddleware } = require('./utils/auth');
-const { convertAudio } = require('./utils/convertAudio');
+const { authMiddleware } = require("./utils/auth");
+const { convertAudio } = require("./utils/convertAudio");
+const { graphqlUpload, graphqlUploadExpress } = require("graphql-upload");
+
+
 
 const PORT = process.env.PORT || 3001;
 
@@ -26,52 +29,49 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === "production") {
-  console.log('running in production mode');
-app.use(express.static(path.join(__dirname, "..client/build")));
-}   else {
-  console.log('running in development mode');
+  console.log("running in production mode");
+  app.use(express.static(path.join(__dirname, "..client/build")));
+} else {
+  console.log("running in development mode");
 }
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-app.get('/public/audio/:audio', (req, res) => {
+app.get("/public/audio/:audio", (req, res) => {
   const audio = req.params.audio;
-  try{
-    // const readstream = fs.createReadStream(path.join(__dirname, `/public/audio/${audio}`));
-    // readstream.pipe(res);
+  try {
     res.sendFile(path.join(__dirname, `/public/audio/${audio}`));
-  } catch(err){
+  } catch (err) {
     console.error(err);
   }
 });
 
-app.get('/public/images/:image', (req, res) => {
+app.get("/public/images/:image", (req, res) => {
   const image = req.params.image;
-  try{
+  try {
     res.sendFile(path.join(__dirname, `/public/images/${image}`));
-  } catch(err){
-    console.error(err)
+  } catch (err) {
+    console.error(err);
   }
 });
 
-app.post('/public/audio/:user/:track', (req, res) => {
+app.post("/public/audio/:user/:track", (req, res) => {
   const user = req.params.user;
   const track = req.params.track;
   const filename = `${user}-${track}`;
-  try{
+  try {
     convertAudio(user.id, track, filename);
-    res.send('success');
-  } catch(err){
+    res.send("success");
+  } catch (err) {
     console.error(err);
   }
 });
 
-
-
 const startApolloServer = async (typeDefs, resolvers) => {
   await server.start();
+  app.use(graphqlUploadExpress({ maxFileSize: 40000000, maxFiles: 1 }));
   server.applyMiddleware({ app });
 
   db.once("open", () => {

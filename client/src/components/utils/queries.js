@@ -14,20 +14,6 @@ export const QUERY_ALL_TRACKS = gql`
     }
   }
 `;
-export const QUERY_SAFE_TRACKS = gql`
-  {
-    tracks(explicit: false ) {
-      _id
-      title
-      artist
-      album
-      explicit
-      image
-      audioSrc
-      color
-    }
-  }
-`;
 
 export const QUERY_ALL_PLAYLISTS = gql`
   {
