@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AudioControls from './AudioControls'
 import Backdrop from './Backdrop'
+
 import quiet from '../audio/quiet'
 import {
-  VStack ,
+  VStack,
   VisuallyHidden,
   ControlBox,
   Icon,
   HStack,
   Text,
 } from '@chakra-ui/react'
-import { CheckIcon } from '@chakra-ui/icons'; 
+import { CheckIcon } from '@chakra-ui/icons'
+import { invertColor } from './utils/helpers'
 
 const AudioPlayer = ({ tracks }) => {
   // state
@@ -24,34 +26,54 @@ const AudioPlayer = ({ tracks }) => {
 
   //refs
 
-  
   const queueRef = useRef(queue)
-  const audioRef = useRef(new Audio(queue[0].audioSrc))
-  audioRef.current.muted = isMuted
-  const intervalRef = useRef()
-  const durationRef = useRef(audioRef.current.duration)
+  const audioContextRef = useRef(
+    new AudioContext({
+      latencyHint: 'playback',
+    }),
+  )
+  const audioRef = useRef(
+    audioContextRef.current.createMediaElementSource(new Audio()),
+  )
+  audioRef.current.mediaElement.crossOrigin = 'anonymous'
 
-  const currentPercentage = durationRef.current
-    ? `${(trackProgress / durationRef.current) * 100}%`
+  const analyzer = useRef(audioContextRef.current.createAnalyser())
+
+  audioRef.current.connect(analyzer.current)
+
+  analyzer.current.connect(audioContextRef.current.destination)
+
+  audioRef.current.mediaElement.muted = isMuted
+
+  const durationRef = useRef(audioRef.current.mediaElement.duration)
+
+  const currentPercentage = audioRef.current.mediaElement.duration
+    ? `${(trackProgress / audioRef.current.mediaElement.duration) * 100}%`
     : '0%'
   const trackStyling = `
-  -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #888))
+  -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, ${invertColor(
+    color,
+  )}), color-stop(${currentPercentage}, #fff))
   `
-  const startTimer = () => {
-    clearInterval(intervalRef.current)
-    intervalRef.current = setInterval(() => {
-      setTrackProgress(audioRef.current.currentTime)
-    }, [1000])
-  }
+
+  const intervalRef = useRef(
+    setInterval(() => {
+      setTrackProgress(audioRef.current.mediaElement.currentTime)
+      draw(canvasRef.current.getContext('2d'))
+    }, 1000 / 24),
+  )
 
   const onScrub = (value) => {
     clearInterval(intervalRef.current)
-    audioRef.current.currentTime = value
+    audioRef.current.mediaElement.currentTime = value
     setTrackProgress(value)
   }
 
   const onScrubEnd = () => {
-    startTimer()
+    intervalRef.current = setInterval(() => {
+      setTrackProgress(audioRef.current.mediaElement.currentTime)
+      draw(canvasRef.current.getContext('2d'))
+    }, 1000 / 24)
   }
 
   const toPrevTrack = useCallback(() => {
@@ -73,51 +95,78 @@ const AudioPlayer = ({ tracks }) => {
   }, [trackIndex])
 
   useEffect(() => {
-    if (audioRef.current.muted) {
-      audioRef.current.muted = false
+    if (audioRef.current.mediaElement.muted) {
+      audioRef.current.mediaElement.muted = false
     } else {
-      audioRef.current.muted = true
+      audioRef.current.mediaElement.muted = true
     }
   }, [isMuted])
 
   useEffect(() => {
-    if (audioRef.current.volume !== volume) {
-      audioRef.current.volume = volume
+    if (audioRef.current.mediaElement.volume !== volume) {
+      audioRef.current.mediaElement.volume = volume
     }
   }, [volume])
 
   useEffect(() => {
     console.log(`isPlaying state changed to ${isPlaying}`)
-    console.log(audioRef.current.currentSrc)
+    console.log(audioRef.current.mediaElement.src)
     if (isPlaying) {
-      audioRef.current.play()
-      startTimer()
+      audioRef.current.mediaElement.play()
     } else {
-      audioRef.current.pause()
-      clearInterval(intervalRef.current)
+      audioRef.current.mediaElement.pause()
     }
   }, [isPlaying])
-useEffect(() => {
-  queueRef.current = queue
-}, [queue])
+
+  useEffect(() => {
+    queueRef.current = queue
+  }, [queue])
+
   useEffect(() => {
     console.log(`trackIndex state changed to ${trackIndex}`)
-    audioRef.current.pause()
-    audioRef.current.src = queueRef.current[trackIndex].audioSrc
-    audioRef.current.load()
-    durationRef.current = audioRef.current.duration
-    audioRef.current.addEventListener('canplaythrough', () => {
+    audioRef.current.mediaElement.pause()
+    audioRef.current.mediaElement.src = queueRef.current[trackIndex].audioSrc
+    audioRef.current.mediaElement.load()
+    durationRef.current = audioRef.current.mediaElement.duration
+    audioRef.current.mediaElement.addEventListener('canplaythrough', () => {
       setIsPlaying(true)
     })
-    audioRef.current.addEventListener('ended', () => {
+    audioRef.current.mediaElement.addEventListener('ended', () => {
       toNextTrack()
     })
-
-    startTimer()
   }, [trackIndex, toNextTrack])
+
+  //visualizer
+
+  const canvasRef = useRef(null)
+  const draw = useCallback((context) => {
+    const bufferLength = 128
+    const dataArray = new Uint8Array(bufferLength)
+    analyzer.current.getByteFrequencyData(dataArray)
+
+    context.fillStyle = 'rgb(0, 0, 0)'
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height)
+    var barWidth = (context.canvas.width / bufferLength) * 2.5
+    var barHeight
+    var x = 0
+    for (var i = 0; i < bufferLength; i++) {
+      barHeight = dataArray[i] / 3
+      context.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)'
+      context.fillRect(x, -barHeight / 2.5, barWidth, barHeight)
+      x += barWidth + 1
+    }
+  }, [])
 
   return (
     <div className="audio-player">
+      <canvas
+        ref={canvasRef}
+        className="audio-visualizer"
+        width={window.innerWidth}
+        height="45"
+        style={{ position: 'absolute', top: '0', left: '0', opacity: '0.25' }}
+      ></canvas>
+
       <div className="track-info">
         <img
           className="artwork"
@@ -136,65 +185,26 @@ useEffect(() => {
 
       <AudioControls
         isPlaying={isPlaying}
+        isMuted={isMuted}
+        volume={volume}
         onPrevClick={toPrevTrack}
         onNextClick={toNextTrack}
         onPlayPauseClick={() => setIsPlaying(!isPlaying)}
+        onMuteClick={() => setIsMuted(!isMuted)}
+        onVolumeChange={(e) => setVolume(e.target.value)}
       />
       {/* Progress bar */}
       <input
         type="range"
         className="progress"
         min="0"
-        max={audioRef.current.duration}
+        max={audioRef.current.mediaElement.duration}
         value={trackProgress}
         onChange={(e) => onScrub(e.target.value)}
         onMouseUp={onScrubEnd}
         onKeyUp={onScrubEnd}
         style={{ background: trackStyling }}
       />
-      {/* Queue Setup */}
-      <input
-        type="button"
-        className="queue-push-test"
-        value="Add to Queue"
-        onClick={() => {
-          tracks.push(quiet[0])
-          setQueue([...tracks])
-          queueRef.current = queue
-        }}
-      />
-      {/* Mute Button */}
-      <VStack>
-        <VisuallyHidden></VisuallyHidden>
-        <label>
-        <HStack>
-        <VisuallyHidden as="input" type="checkbox"/>
-          <ControlBox
-                    borderWidth="1px"
-                    size="24px"
-                    rounded="sm"
-                    _checked={{ bg: "red", color: "black", borderColor: "red" }}
-                    _focus={{ borderColor: "green.600", boxShadow: "outline" }}
-                    value={isMuted}
-                    onClick={() => setIsMuted(!isMuted)}
-                  >
-                    <Icon as={CheckIcon} name="check" size="16px" />
-          </ControlBox>
-              <Text ml={2}>Mute </Text>
-          </HStack>
-        </label>
-
-      {/* Volume Slider */}
-      <input
-        type="range"
-        className="volume"
-        min="0"
-        max="1"
-        step="0.01"
-        value={volume}
-        onChange={(e) => setVolume(e.target.value)}
-      />
-    </VStack>
     </div>
   )
 }
