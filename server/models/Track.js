@@ -18,6 +18,12 @@ const trackSchema = new Schema({
     required: true,
     trim: true
   },
+  explicit: {
+    type: Boolean,
+    required:true,
+    trim: true,
+    default: false
+  },
   image: {
     type: String,
     default: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
