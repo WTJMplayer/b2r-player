@@ -24,8 +24,12 @@ const server = new ApolloServer({
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors(corsOptions));
+
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "client/build")));
+  console.log('running in production mode');
+app.use(express.static(path.join(__dirname, "..client/build")));
+}   else {
+  console.log('running in development mode');
 }
 
 app.get("/", (req, res) => {

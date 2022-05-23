@@ -80,7 +80,7 @@ const LoginForm = (props) => {
         justifyContent="center"
         alignItems="center"
       >
-        <Heading color="white">Wanna Jam To Music</Heading>
+        <Heading color="white">B2R Audio Client Handler</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
           <Stack
             spacing={4}

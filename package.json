@@ -30,7 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "develop": "concurrently \"cd server && npm run start\" \"cd client && npm start\"",
+    "develop": "concurrently \"cd server && npm run start\" \"cd client && npm run start\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "test": "react-scripts test",
     "seed": "cd server && npm run seed",

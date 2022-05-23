@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import Footer from "./components/Footer";
@@ -13,20 +13,25 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+
+
 function App() {
+  const [safeMode, setSafeMode] = useState(true);
   return (
     <ApolloProvider client={client}>
       <div className="container">
         <AudioUpload />
         <Router>
-          <Navbar />
+          <Navbar safeMode={safeMode}
+          setSafeMode={setSafeMode}/>
+          
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/artist" element={<Artist />} />
           </Routes>
         </Router>
-        <Footer />
+        <Footer safeMode={safeMode} />
       </div>
     </ApolloProvider>
   );

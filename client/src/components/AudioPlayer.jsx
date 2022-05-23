@@ -1,40 +1,34 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import AudioControls from './AudioControls'
 import Backdrop from './Backdrop'
-
-import quiet from '../audio/quiet'
-import {
-  VStack,
-  VisuallyHidden,
-  ControlBox,
-  Icon,
-  HStack,
-  Text,
-} from '@chakra-ui/react'
-import { CheckIcon } from '@chakra-ui/icons'
 import { invertColor } from './utils/helpers'
 
-const AudioPlayer = ({ tracks }) => {
+const AudioPlayer = ({ tracks, safeMode }) => {
   // state
   const [queue, setQueue] = useState(tracks.map((track) => ({ ...track })))
+  const queueRef = useRef(queue)
+
   const [trackIndex, setTrackIndex] = useState(0)
   const [trackProgress, setTrackProgress] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
-  const { title, artist, color, image } = queue[trackIndex]
-  const [volume, setVolume] = useState(1)
-
+  const { title, artist, color, image } = queueRef.current[trackIndex]
+  const [volume, setVolume] = useState(0)
+  const [vizToggle, setVizToggle] = useState(false)
   //refs
+  const canvas = useRef()
+  const context = useRef()
 
-  const queueRef = useRef(queue)
   const audioContextRef = useRef(
     new AudioContext({
       latencyHint: 'playback',
     }),
   )
+
   const audioRef = useRef(
     audioContextRef.current.createMediaElementSource(new Audio()),
   )
+
   audioRef.current.mediaElement.crossOrigin = 'anonymous'
 
   const analyzer = useRef(audioContextRef.current.createAnalyser())
@@ -42,10 +36,11 @@ const AudioPlayer = ({ tracks }) => {
   audioRef.current.connect(analyzer.current)
 
   analyzer.current.connect(audioContextRef.current.destination)
-  analyzer.current.smoothingTimeConstant = 0.85
+  analyzer.current.smoothingTimeConstant = 0.8
   audioRef.current.mediaElement.muted = isMuted
 
   const durationRef = useRef(audioRef.current.mediaElement.duration)
+  const prevVolume = useRef(1)
 
   const currentPercentage = audioRef.current.mediaElement.duration
     ? `${(trackProgress / audioRef.current.mediaElement.duration) * 100}%`
@@ -55,17 +50,21 @@ const AudioPlayer = ({ tracks }) => {
     color,
   )}), color-stop(${currentPercentage}, #fff))
   `
-  const canvasRef = useRef(null)
+
   const intervalRef = useRef(
     setInterval(() => {
-      canvasRef.current = document.querySelector('canvas')
       setTrackProgress(audioRef.current.mediaElement.currentTime)
+      if (!vizToggle) {
+        return
+      }
       try {
-      draw(canvasRef.current.getContext('2d'))
+        canvas.current = document.querySelector('canvas')
+        context.current = canvas.current.getContext('2d')
+        draw(context.current)
       } catch (error) {
         console.log(error)
       }
-    }, 1000 / 24),
+    }, 1000 / 6),
   )
 
   const onScrub = (value) => {
@@ -77,14 +76,18 @@ const AudioPlayer = ({ tracks }) => {
   const onScrubEnd = () => {
     setInterval(() => {
       setTrackProgress(audioRef.current.mediaElement.currentTime)
+      if (!vizToggle) {
+        return
+      }
       try {
-      draw(canvasRef.current.getContext('2d'))
+        canvas.current = document.querySelector('canvas')
+
+        draw(context.current)
       } catch (error) {
         console.log(error)
       }
-    }, 1000 / 24)
+    }, 1000 / 6)
   }
-  
 
   const toPrevTrack = useCallback(() => {
     setIsPlaying(false)
@@ -105,16 +108,25 @@ const AudioPlayer = ({ tracks }) => {
   }, [trackIndex])
 
   useEffect(() => {
-    if (audioRef.current.mediaElement.muted) {
-      audioRef.current.mediaElement.muted = false
+    audioRef.current.mediaElement.muted = isMuted
+    if (isMuted) {
+      if (audioRef.current.mediaElement.volume !== 0) {
+        prevVolume.current = audioRef.current.mediaElement.volume
+      }
+      setVolume(0)
     } else {
-      audioRef.current.mediaElement.muted = true
+      setVolume(prevVolume.current)
     }
   }, [isMuted])
 
   useEffect(() => {
     if (audioRef.current.mediaElement.volume !== volume) {
       audioRef.current.mediaElement.volume = volume
+    }
+    if (volume > 0) {
+      setIsMuted(false)
+    } else {
+      setIsMuted(true)
     }
   }, [volume])
 
@@ -133,6 +145,16 @@ const AudioPlayer = ({ tracks }) => {
   }, [queue])
 
   useEffect(() => {
+    console.log('safeMode changed to', safeMode)
+    if (safeMode) {
+      setQueue(queueRef.current.filter((track) => !track.explicit))
+    } else {
+      setQueue(tracks.map((track) => ({ ...track })))
+    }
+    console.log(queueRef.current)
+  }, [safeMode])
+
+  useEffect(() => {
     console.log(`trackIndex state changed to ${trackIndex}`)
     audioRef.current.mediaElement.pause()
     audioRef.current.mediaElement.src = queueRef.current[trackIndex].audioSrc
@@ -148,7 +170,6 @@ const AudioPlayer = ({ tracks }) => {
 
   //visualizer
 
-  
   const draw = useCallback((context) => {
     const bufferLength = 128
     const dataArray = new Uint8Array(bufferLength)
@@ -160,7 +181,7 @@ const AudioPlayer = ({ tracks }) => {
     var barHeight
     var x = 0
     for (var i = 0; i < bufferLength; i++) {
-      barHeight = dataArray[i] 
+      barHeight = dataArray[i]
       context.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)'
       context.fillRect(x, -barHeight / 2.5, barWidth, barHeight)
       x += barWidth + 1
@@ -169,13 +190,35 @@ const AudioPlayer = ({ tracks }) => {
 
   return (
     <div className="audio-player">
-      <canvas
-        id="canvas"
-        className="audio-visualizer"
-        width={window.innerWidth}
-        height={window.innerHeight * 2}
-        style={{ position: 'absolute', top: '0', left: '0', opacity: '.5', zIndex: '-1' }}
-      ></canvas>
+      {vizToggle ? (
+        <canvas
+          id="canvas"
+          className="audio-visualizer"
+          width={window.innerWidth}
+          height={window.innerHeight * 2}
+          style={{
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            opacity: '.5',
+            zIndex: '-1',
+          }}
+        />
+      ) : (
+        <canvas
+          id="canvas"
+          className="audio-visualizer"
+          width={window.innerWidth}
+          height={window.innerHeight * 2}
+          style={{
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            opacity: '0',
+            zIndex: '-1',
+          }}
+        />
+      )}
 
       <div className="track-info">
         <img
@@ -186,13 +229,11 @@ const AudioPlayer = ({ tracks }) => {
         <h2 className="title">{title}</h2>
         <h3 className="artist">{artist}</h3>
       </div>
-
       <Backdrop
         trackIndex={trackIndex}
         activeColor={color}
         isPlaying={isPlaying}
       />
-
       <AudioControls
         isPlaying={isPlaying}
         isMuted={isMuted}
@@ -202,6 +243,8 @@ const AudioPlayer = ({ tracks }) => {
         onPlayPauseClick={() => setIsPlaying(!isPlaying)}
         onMuteClick={() => setIsMuted(!isMuted)}
         onVolumeChange={(e) => setVolume(e.target.value)}
+        onToggle={() => setVizToggle(!vizToggle)}
+        vizToggle={vizToggle}
       />
       {/* Progress bar */}
       <input

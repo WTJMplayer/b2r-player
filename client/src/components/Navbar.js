@@ -7,19 +7,27 @@ import MakePlaylistForm from './forms/MakePlaylistForm';
 import { FiMusic } from 'react-icons/fi'
 
 
-function Navbar() {
+function Navbar( {safeMode, setSafeMode} ) {
+
   const [click, setClick] = useState(false);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
+  useEffect(() => {
+    if (safeMode) {
+      return
+    } else {
+      alert('Safe Mode is disabled. Explicit audio may be played.')
+    }
+  }, [safeMode])
 
   return (
     <>
       <nav className='navbar'>
         <div className='navbar-container'>
           <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-            WJTM
+            BACH
             <FiMusic />
           </Link>
           <div className='menu-icon' onClick={handleClick}>
@@ -51,6 +59,23 @@ function Navbar() {
             </li>
 
           </ul>
+          {safeMode ? (
+          <button
+            className='nav-links'
+            onClick={() => setSafeMode(!safeMode)}
+            style={{backgroundColor: 'green', color: 'black'}}
+          > Safe Mode On
+          </button>
+          ) : (
+          <button
+            className='nav-links'
+            onClick={() => setSafeMode(!safeMode)}
+            style={{backgroundColor: 'red', color: 'white'}}
+          > Safe Mode Off
+          </button>
+          )}
+
+          
         </div>
       </nav>
     </>

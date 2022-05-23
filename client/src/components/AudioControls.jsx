@@ -5,12 +5,13 @@ import { ReactComponent as Next } from '../images/next.svg'
 import { ReactComponent as Prev } from '../images/prev.svg'
 import { ReactComponent as Mute } from '../images/mute.svg'
 import { ReactComponent as Unmute } from '../images/unmute.svg'
-
+import { ReactComponent as Toggle } from '../images/toggle.svg'
 
 const AudioControls = ({
-  
-    volume,
-    onVolumeChange,
+  vizToggle,
+  onToggle,
+  volume,
+  onVolumeChange,
   isPlaying,
   isMuted,
   onPlayPauseClick,
@@ -19,7 +20,6 @@ const AudioControls = ({
   onMuteClick,
 }) => (
   <div className="audio-controls">
-
     <div className="playback-controls">
       <button
         type="button"
@@ -82,7 +82,7 @@ const AudioControls = ({
           </button>
         </div>
       )}
-       <input
+      <input
         type="range"
         className="volume"
         min="0"
@@ -90,8 +90,34 @@ const AudioControls = ({
         step="0.01"
         value={volume}
         onChange={onVolumeChange}
-        
       />
+      {vizToggle ? (
+        <button
+          type="button"
+          className="toggle"
+          aria-label="Toggle"
+          onClick={() => onToggle()}
+        >
+          <Toggle
+            style={{
+              transform: '',
+            }}
+          />
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="toggle"
+          aria-label="Toggle"
+          onClick={() => onToggle()}
+        >
+          <Toggle
+            style={{
+              transform: 'scale(-1, 1)',
+            }}
+          />
+        </button>
+      )}
     </div>
   </div>
 )
