@@ -42,7 +42,7 @@ const AudioPlayer = ({ tracks }) => {
   audioRef.current.connect(analyzer.current)
 
   analyzer.current.connect(audioContextRef.current.destination)
-
+  analyzer.current.smoothingTimeConstant = 0.85
   audioRef.current.mediaElement.muted = isMuted
 
   const durationRef = useRef(audioRef.current.mediaElement.duration)
@@ -55,11 +55,16 @@ const AudioPlayer = ({ tracks }) => {
     color,
   )}), color-stop(${currentPercentage}, #fff))
   `
-
+  const canvasRef = useRef(null)
   const intervalRef = useRef(
     setInterval(() => {
+      canvasRef.current = document.querySelector('canvas')
       setTrackProgress(audioRef.current.mediaElement.currentTime)
+      try {
       draw(canvasRef.current.getContext('2d'))
+      } catch (error) {
+        console.log(error)
+      }
     }, 1000 / 24),
   )
 
@@ -70,11 +75,16 @@ const AudioPlayer = ({ tracks }) => {
   }
 
   const onScrubEnd = () => {
-    intervalRef.current = setInterval(() => {
+    setInterval(() => {
       setTrackProgress(audioRef.current.mediaElement.currentTime)
+      try {
       draw(canvasRef.current.getContext('2d'))
+      } catch (error) {
+        console.log(error)
+      }
     }, 1000 / 24)
   }
+  
 
   const toPrevTrack = useCallback(() => {
     setIsPlaying(false)
@@ -138,7 +148,7 @@ const AudioPlayer = ({ tracks }) => {
 
   //visualizer
 
-  const canvasRef = useRef(null)
+  
   const draw = useCallback((context) => {
     const bufferLength = 128
     const dataArray = new Uint8Array(bufferLength)
@@ -150,7 +160,7 @@ const AudioPlayer = ({ tracks }) => {
     var barHeight
     var x = 0
     for (var i = 0; i < bufferLength; i++) {
-      barHeight = dataArray[i] / 3
+      barHeight = dataArray[i] 
       context.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)'
       context.fillRect(x, -barHeight / 2.5, barWidth, barHeight)
       x += barWidth + 1
@@ -160,11 +170,11 @@ const AudioPlayer = ({ tracks }) => {
   return (
     <div className="audio-player">
       <canvas
-        ref={canvasRef}
+        id="canvas"
         className="audio-visualizer"
         width={window.innerWidth}
-        height="45"
-        style={{ position: 'absolute', top: '0', left: '0', opacity: '0.25' }}
+        height={window.innerHeight * 2}
+        style={{ position: 'absolute', top: '0', left: '0', opacity: '.5', zIndex: '-1' }}
       ></canvas>
 
       <div className="track-info">

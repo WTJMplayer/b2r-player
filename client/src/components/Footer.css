@@ -109,6 +109,7 @@ button {
   min-height: 3vh;
   max-width: 3vw;
   max-height: 3vh;
+  z-index: 1;
 }
 
 .audio-controls .play svg,
@@ -117,6 +118,7 @@ button {
   min-width: 3vw;
   max-width: 3vw;
   max-height: 3vh;
+  z-index: 1;
 }
 
 .audio-controls .unmute svg,
@@ -126,6 +128,7 @@ button {
   max-width: 3vw;
   max-height: 3vh;
   align-self: flex-start;
+  z-index: 1;
 }
 
 .audio-controls path {
@@ -160,7 +163,7 @@ button {
 
 @keyframes colorChange {
   from {
-    filter: hue-rotate(720deg);
+    filter: hue-rotate(0deg);
   }
   to {
     filter: hue-rotate(360deg);
