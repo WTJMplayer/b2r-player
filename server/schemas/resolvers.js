@@ -128,6 +128,9 @@ const resolvers = {
     deletePlaylist: async (parent, _id) => {
       return await Playlist.deleteOne(_id);
     },
+    updateTrack: async (parent, {_id,title,artist}) => {
+      return await Track.findByIdAndUpdate(_id, {title,artist}, { new: true });
+    },
   },
 };
 

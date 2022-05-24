@@ -61,6 +61,7 @@ type Mutation {
     removeFromPlaylist(_id: ID!, trackId: ID!): Playlist
     deleteTrack(_id:ID!): Track
     deletePlaylist(_id:ID!): Playlist
+    updateTrack(_id: ID!, title: String!, artist: String!): Track
 }
 `;
 
