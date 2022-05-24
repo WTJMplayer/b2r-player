@@ -16,14 +16,10 @@ const PlaylistItem=({playlists}) => {
     <>
     {playlists && playlists?.map((playlist) => ( 
 
-      <Flex 
-        align='center' 
-        justify='center'
-        wrap='wrap'
-        >
+      <Flex >
           
         {/* <Link to={`/playlists/${playlist.id}`}> */}
-        <Box
+        <Button
           maxW="sm"
           borderWidth="2px"
           rounded="lg"
@@ -32,13 +28,10 @@ const PlaylistItem=({playlists}) => {
           backgroundColor='white'
           >
 
-            <Box>
-            <Center>
-                <Button fontSize='lg' m={2}> { playlist.name } </Button>
-            </Center>
-            </Box>
+           { playlist.name } 
 
-        </Box>
+
+        </Button>
 
       </Flex>
 

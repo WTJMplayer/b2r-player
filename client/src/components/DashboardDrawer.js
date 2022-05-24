@@ -13,6 +13,7 @@ import {
     Box,
     Heading,
     Stack,
+    VStack,
   } from '@chakra-ui/react';
 import UserProfileEdit from './forms/EditAccountForm';
 import PlaylistItem from './PlaylistItem';
@@ -51,15 +52,14 @@ console.log(playlists)
                     <UserProfileEdit />
                 </Button>
 
-                <SimpleGrid columns={1} spacingY='10px'>
-                    <Heading as='h4' size='md'>
-                        Playlists
-                    </Heading>
-                    <Button>
-                        <Box> <PlaylistItem playlists={playlists}/></Box>
-                    </Button>
+                <Heading as='h4' size='md'>
+                    Playlists
+                </Heading>
+                <VStack>
+
+                <PlaylistItem playlists={playlists}/>
                     
-                </SimpleGrid>
+                </VStack>
 
                 </Stack>
             </DrawerBody>

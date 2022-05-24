@@ -11,6 +11,7 @@ import {
     MenuList,
     MenuItem,
     Button,
+    VStack
   } from '@chakra-ui/react'
 
 import { AddIcon } from '@chakra-ui/icons'
@@ -48,7 +49,11 @@ function AddToPlaylist() {
             <AddIcon />
         </MenuButton>
         <MenuList>
-            <MenuItem><PlaylistItem playlists={playlists}/></MenuItem>
+            <MenuItem>
+            <VStack>
+                <PlaylistItem playlists={playlists}/>
+            </VStack>    
+            </MenuItem>
             <MenuItem> <MakePlaylistForm /> </MenuItem>
         </MenuList>
         </Menu>

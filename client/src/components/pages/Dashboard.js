@@ -24,12 +24,6 @@ function Dashboard() {
                     </Heading>
                 </Center>
                 <SongCards />
-                <Center>
-                    <Heading color='white'>
-                        Artists
-                    </Heading>
-                </Center>
-                <ArtistCards />
             </VStack>
         </Flex>   
     );
