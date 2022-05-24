@@ -1,10 +1,6 @@
 import React from 'react'
-import { useMutation } from '@apollo/client'
-import { SINGLE_UPLOAD } from './utils/mutation/index'
 
 const AudioUpload = () => {
-  const [singleUpload] = useMutation(SINGLE_UPLOAD)
-
   return (
     <div>
       <input
@@ -15,7 +11,12 @@ const AudioUpload = () => {
           const validity = e.target.validity
           const file = e.target.files[0]
           if (validity.valid) {
-            singleUpload({ variables: { file } })
+            let url = 'http://localhost:3000/public/audio/upload'
+            fetch(url, {
+              method: 'POST',
+              track: file,
+              user: 'admin',
+            })
           }
         }}
       />

@@ -57,16 +57,17 @@ app.get("/public/images/:image", (req, res) => {
   }
 });
 
-app.post("/public/audio/:user/:track", (req, res) => {
+app.post("/public/audio/upload", (req, res) => {
   const user = req.params.user;
   const track = req.params.track;
   const filename = `${user}-${track}`;
   try {
-    convertAudio(user.id, track, filename);
+    convertAudio(user, track, filename);
     res.send("success");
   } catch (err) {
     console.error(err);
   }
+
 });
 
 const startApolloServer = async (typeDefs, resolvers) => {
