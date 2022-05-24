@@ -36,7 +36,7 @@ function EditSongDetails(trackId) {
       setFormState({
         ...formState,
         [name]: value,
-        id: trackId.value
+        id: trackId.trackId
       });
 
     };

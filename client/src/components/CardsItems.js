@@ -51,8 +51,7 @@ const CardItems=({tracks}) => {
             <Flex justify='space-between'>
                   <AddToPlaylist/>
                   <EditSongDetails 
-                    songname='Song name 1'
-                    artist='Artist 1'/> 
+                    trackId={track._id}/> 
                   <DeleteButton 
                     value={track._id}
                     trackId={track._id}
