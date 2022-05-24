@@ -47,7 +47,7 @@ const CardItems=({tracks}) => {
                 <Text fontSize='lg' m={2}> { track.title } </Text>
             </Center>
             <Flex justify='space-between'>
-                  <AddToPlaylist />
+                  <AddToPlaylist key={track._id}/>
                   <EditSongDetails 
                     songname='Song name 1'
                     artist='Artist 1'/> 
