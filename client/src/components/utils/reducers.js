@@ -6,7 +6,8 @@ import {
   REMOVE_FROM_PLAYLIST,
   DELETE_PLAYLIST,
   CREATE_TRACK,
-  DELETE_TRACK
+  DELETE_TRACK,
+  UPDATE_TRACK
 } from './actions';
 
 
@@ -57,6 +58,12 @@ export default function reducer(state, action) {
         tracks: [...state.tracks, action.payload],
       };
     }
+    
+    case UPDATE_TRACK:
+      return {
+        ...state,
+        track: [...action.track],
+      };
 
     case DELETE_TRACK: {
       return {

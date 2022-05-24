@@ -5,3 +5,4 @@ export const DELETE_PLAYLIST = "DELETE_PLAYLIST";
 
 export const CREATE_TRACK = "CREATE_TRACK";
 export const DELETE_TRACK = "DELETE_TRACK";
+export const UPDATE_TRACK = "UPDATE_TRACK";
