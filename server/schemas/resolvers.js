@@ -1,12 +1,8 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { Profile, Track, Playlist } = require("../models");
 const { signToken } = require("../utils/auth");
-const { convertAudio } = require("../utils/convertAudio");
-const fs = require("fs");
-const path = require("path");
 const { GraphQLUpload } = require("graphql-upload");
-const { on } = require("events");
-const { finished } = require("stream/promises");
+
 
 const resolvers = {
   Query: {
@@ -43,16 +39,12 @@ const resolvers = {
 
   Upload: GraphQLUpload,
 
-  Mutation: {
-    singleUpload: async (parent, { file }) => {
-      const { createReadStream, filename, mimetype, encoding } = await file;
-      const stream = createReadStream();
-      const out = fs.createWriteStream("/tmp/" + filename);
-      stream.pipe(out);
-      await finished(out);
-      return { filename, mimetype, encoding };
-    },
 
+  
+
+  Mutation: {
+    singleUpload: async (parent, { file }) => getFileDetails(file),
+    
     addProfile: async (parent, { name, email, password }) => {
       const profile = await Profile.create({ name, email, password });
       const token = signToken(profile);
@@ -132,6 +124,9 @@ const resolvers = {
       return await Track.findByIdAndUpdate(_id, {title,artist}, { new: true });
     },
   },
+
 };
+
+
 
 module.exports = resolvers;

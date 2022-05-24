@@ -1,30 +1,24 @@
 import React from 'react'
-import { useMutation } from '@apollo/client'
-import { SINGLE_UPLOAD } from './utils/mutation/index'
 
 const AudioUpload = () => {
-  const [singleUpload] = useMutation(SINGLE_UPLOAD)
-  function onChange({
-    target: {
-      validity, 
-      files: [file],
-    },
-    
-  }) {
-    if (validity.valid) {
-      console.log(file)
-      singleUpload({ variables: { file } })
-    }
-  }
-
-
   return (
     <div>
       <input
         type="file"
         accept="audio/*"
         required
-        onChange={onChange}
+        onChange={(e) => {
+          const validity = e.target.validity
+          const file = e.target.files[0]
+          if (validity.valid) {
+            let url = 'http://localhost:3000/public/audio/upload'
+            fetch(url, {
+              method: 'POST',
+              track: file,
+              user: 'admin',
+            })
+          }
+        }}
       />
     </div>
   )
