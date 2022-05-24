@@ -47,10 +47,11 @@ const CardItems=({tracks}) => {
                 <Text fontSize='lg' m={2}> { track.title } </Text>
             </Center>
             <Flex justify='space-between'>
-                  <AddToPlaylist key={track._id}/>
+                  <AddToPlaylist/>
                   <EditSongDetails 
-                    songname='Song name 1'
-                    artist='Artist 1'/> 
+                    value={track._id}
+                    trackId={track._id}
+                    /> 
                 </Flex>
             </Box>
 

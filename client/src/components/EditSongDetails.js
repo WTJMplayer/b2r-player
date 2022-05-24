@@ -1,4 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
+import { useMutation } from "@apollo/client";
+import { UPDATE_TRACK } from "./utils/mutation";
 import {
     Modal,
     ModalOverlay,
@@ -16,9 +18,48 @@ import {
   } from '@chakra-ui/react'
 
 
-function EditSongDetails(prop) {
+function EditSongDetails(trackId) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const firstField = React.useRef()
+    const [formState, setFormState] = useState({
+      title: "",
+      artist: ""
+    });
+
+    const [updateTrack, { error, data }] = useMutation(UPDATE_TRACK);
+
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+      
+      
+  
+      setFormState({
+        ...formState,
+        [name]: value,
+        id: trackId.value
+      });
+
+    };
+
+    const handleFormSubmit = async (event) => {
+      event.preventDefault();
+      console.log(formState);
+      
+  
+      try {
+        const { data } = await updateTrack({
+          variables: { 
+            ...formState,
+            },
+  
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+
+
 
     return (
       <>
@@ -36,7 +77,9 @@ function EditSongDetails(prop) {
                   <Input
                     ref={firstField}
                     id='songname'
-                    placeholder={prop.songname}
+                    name="title"
+                    value={formState.title}
+                    onChange = {handleChange}
                   />
                 </Box>
     
@@ -45,7 +88,9 @@ function EditSongDetails(prop) {
                   <Input
                     ref={firstField}
                     id='artistname'
-                    placeholder={prop.artist}
+                    name="artist"
+                    value={formState.artist}
+                    onChange ={handleChange}
                   />
 
                 </Box>
@@ -59,7 +104,11 @@ function EditSongDetails(prop) {
                 <Button variant='outline' mr={3} onClick={onClose}>
                 Cancel
                 </Button>
-                <Button colorScheme='blue'>Submit</Button>
+                <Button 
+                  colorScheme='blue' 
+                  onClick={handleFormSubmit}
+                  type= "submit"
+                  >Submit</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
