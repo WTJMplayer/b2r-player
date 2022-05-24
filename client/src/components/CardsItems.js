@@ -39,6 +39,8 @@ const CardItems=({tracks}) => {
             roundedTop="lg"
             src={ track.image } 
             alt={`Picture of ${track.title}`}
+            fallbackSrc= '\public\images\fillerimage.jpg'
+            boxSize='300px'
             />
 
             <Box>

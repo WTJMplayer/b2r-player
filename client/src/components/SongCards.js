@@ -22,8 +22,8 @@ const SongCards = () => {
         <div className='cards__wrapper'>
           <ul className='cards__items'>
             <SimpleGrid
-              columns={[2, null, 3]}
-              spacing={4}
+              columns={[1, null, 3]}
+              spacing={5}
 
               >
               {/* <Box> */}
