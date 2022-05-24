@@ -4,19 +4,6 @@ import { SINGLE_UPLOAD } from './utils/mutation/index'
 
 const AudioUpload = () => {
   const [singleUpload] = useMutation(SINGLE_UPLOAD)
-  function onChange({
-    target: {
-      validity, 
-      files: [file],
-    },
-    
-  }) {
-    if (validity.valid) {
-      console.log(file)
-      singleUpload({ variables: { file } })
-    }
-  }
-
 
   return (
     <div>
@@ -24,7 +11,13 @@ const AudioUpload = () => {
         type="file"
         accept="audio/*"
         required
-        onChange={onChange}
+        onChange={(e) => {
+          const validity = e.target.validity
+          const file = e.target.files[0]
+          if (validity.valid) {
+            singleUpload({ variables: { file } })
+          }
+        }}
       />
     </div>
   )
