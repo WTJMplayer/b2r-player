@@ -1,4 +1,6 @@
 import React from 'react';
+import AddToPlaylist from './AddToPlaylist'
+import EditSongDetails from './EditSongDetails';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -7,17 +9,21 @@ import {
   Image,
   Center,
 } from '@chakra-ui/react';
+import { makeProcessedFieldsMerger } from '@apollo/client/cache/inmemory/helpers';
 
 // Set up for card format, will use designated props
-function CardItems(props) {
+const CardItems=({tracks}) => {
   return (
     <>
+    {tracks && tracks?.map((track) => ( 
+
       <Flex 
         align='center' 
         justify='center'
         wrap='wrap'
         >
-        <Link to={props.path}>
+          
+        {/* <Link to={`/tracks/${track.id}`}> */}
         <Box
           maxW="sm"
           borderWidth="2px"
@@ -29,22 +35,30 @@ function CardItems(props) {
 
             <Image
             roundedTop="lg"
-            src={ props.src } 
-            alt={`Picture of ${props.songname}`}
+            src={ track.image } 
+            alt={`Picture of ${track.title}`}
             />
 
             <Box>
             <Center>
-                <Text fontSize='lg' m={2}> { props.artist } </Text>
+                <Text fontSize='lg' m={2}> { track.artist } </Text>
             </Center>
             <Center>
-                <Text fontSize='lg' m={2}> { props.songname } </Text>
+                <Text fontSize='lg' m={2}> { track.title } </Text>
             </Center>
+            <Flex justify='space-between'>
+                  <AddToPlaylist />
+                  <EditSongDetails 
+                    songname='Song name 1'
+                    artist='Artist 1'/> 
+                </Flex>
             </Box>
 
         </Box>
-        </Link>
+        {/* </Link> */}
       </Flex>
+
+      ))}
 
     </>
   );
