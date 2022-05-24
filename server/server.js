@@ -30,7 +30,7 @@ app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === "production") {
   console.log("running in production mode");
-  app.use(express.static(path.join(__dirname, "..client/build/static")));
+  app.use(express.static(path.join(__dirname, "../client/build/static")));
 } else {
   console.log("running in development mode");
 }
