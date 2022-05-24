@@ -15,7 +15,9 @@ import {
     Stack,
   } from '@chakra-ui/react';
 import UserProfileEdit from './forms/EditAccountForm';
-
+import { useQuery } from '@apollo/client';
+import { usePlaylistContext } from './utils/GlobalState';
+import {QUERY_ALL_TRACKS} from './utils/queries'
 function DashboardDrawer() {
 const { isOpen, onOpen, onClose } = useDisclosure()
 const btnRef = React.useRef()

@@ -101,6 +101,20 @@ const resolvers = {
         { new: true }
       );
     },
+    addPlaylistToProfile: async (parent, { _id, playlistId }) => {
+      return await Playlist.findByIdAndUpdate(
+        _id,
+        { $push: { playlists: playlistId } },
+        { new: true }
+      );
+    },
+    addTrackToProfile: async (parent, { _id, trackId }) => {
+      return await Playlist.findByIdAndUpdate(
+        _id,
+        { $push: { tracks: trackId } },
+        { new: true }
+      );
+    },
     removeFromPlaylist: async (parent, { _id, trackId }) => {
       return await Playlist.findByIdAndUpdate(
         _id,

@@ -54,8 +54,7 @@ export const ADD_PLAYLIST = gql`
       name: $name,
       author: $author,
       ) {
-      name
-      author
+      _id
     }
   }
 `;
@@ -91,6 +90,15 @@ export const ADD_TO_PLAYLIST = gql `
   mutation AddTrack($id: ID!, $trackId: ID!) {
     addToPlaylist(_id: $id, trackId: $trackId) {
       name
+    }
+  }
+
+`;
+
+export const ADD_PLAYLIST_TO_PROFILE = gql `
+  mutation AddPlaylistToProfile($id: ID!, $playlistId: ID!) {
+    addToPlaylist(_id: $id, playlistId: $playlistId) {
+      _id
     }
   }
 
