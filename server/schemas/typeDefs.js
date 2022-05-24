@@ -42,7 +42,7 @@ type Query {
     tracks: [Track]
     playlists: [Playlist]
     track(_id: ID!): Track
-    playlist(_id: ID!): Playlist
+    playlist(_id: ID!, author: ID!): Playlist
     profile(_ID: ID!): Profile
 }
 type Auth {
@@ -55,6 +55,8 @@ type Mutation {
     login(email: String!, password: String!): Auth
     addTrack(title: String!, artist: String!, album: String!, explicit: Boolean!, image: String!, audioSrc: String!, color: String): Track
     addPlaylist(name: String!, author: ID!): Playlist
+    addPlaylistToProfile(_id: ID!, playlistId: ID!): Profile
+    addTrackToProfile(_id: ID!, trackId: ID!): Profile
     addToPlaylist(_id: ID!, trackId: ID!): Playlist
     removeFromPlaylist(_id: ID!, trackId: ID!): Playlist
     deleteTrack(_id:ID!): Track

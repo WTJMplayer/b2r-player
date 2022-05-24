@@ -7,6 +7,8 @@ const { Provider } = PlaylistContext;
 const PlaylistProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = usePlaylistReducer({
     tracks: [],
+    playlists:[],
+    currentPlaylist: '',
     currentTrack: '',
   });
 
