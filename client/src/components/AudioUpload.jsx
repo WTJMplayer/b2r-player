@@ -11,6 +11,7 @@ const AudioUpload = () => {
           const validity = e.target.validity
           const file = e.target.files[0]
           if (validity.valid) {
+            console.log(file)
             let url = 'http://localhost:3000/public/audio/upload'
             fetch(url, {
               method: 'POST',
