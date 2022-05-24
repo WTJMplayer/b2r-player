@@ -5,6 +5,8 @@ import SongDrawer from './SongDrawer';
 import DashboardDrawer from './DashboardDrawer';
 import MakePlaylistForm from './forms/MakePlaylistForm';
 import { FiMusic } from 'react-icons/fi'
+import { Button } from '@chakra-ui/react';
+import Auth from './utils/auth'
 
 
 function Navbar( {safeMode, setSafeMode} ) {
@@ -21,6 +23,12 @@ function Navbar( {safeMode, setSafeMode} ) {
       alert('Safe Mode is disabled. Explicit audio may be played.')
     }
   }, [safeMode])
+
+  const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+  };
+    
 
   return (
     <>
@@ -57,22 +65,27 @@ function Navbar( {safeMode, setSafeMode} ) {
             <li className='nav-links'>
               <MakePlaylistForm />
             </li>
+{/* 
+            <li className='nav-links' onClick={logout}>
+              Sign Out
+            </li> */}
+
 
           </ul>
           {safeMode ? (
-          <button
+          <Button
             className='nav-links'
             onClick={() => setSafeMode(!safeMode)}
             style={{backgroundColor: 'green', color: 'black'}}
           > Safe Mode On
-          </button>
+          </Button>
           ) : (
-          <button
+          <Button
             className='nav-links'
             onClick={() => setSafeMode(!safeMode)}
             style={{backgroundColor: 'red', color: 'white'}}
           > Safe Mode Off
-          </button>
+          </Button>
           )}
 
           
