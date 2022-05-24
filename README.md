@@ -1,8 +1,7 @@
-# WJTM
+# BACH
 
 ## Description
-Wanna Jam to Music (WJTM) is a easy to use music player where users can create an account and upload music files they would like to play. 
-This project began as an interactive player for a contributor's workplace, but became an application that any company or personal can use.
+B2R Audio Client Handler is a simple music player where users can create an account and can contribute to the music player by uploading songs.
 
 ## Deployed Website
 [Website](heroku.com/heroku)
