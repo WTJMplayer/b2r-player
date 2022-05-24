@@ -129,3 +129,14 @@ export const DELETE_PLAYLIST = gql `
     }
   }
 `;
+
+export const UPDATE_TRACK = gql `
+  mutation UpdateTrack($id: ID!, $title: String!, $artist: String!) {
+    updateTrack(_id: $id, title: $title, artist: $artist) {
+      _id
+      title
+      artist
+    }
+  }
+
+`;

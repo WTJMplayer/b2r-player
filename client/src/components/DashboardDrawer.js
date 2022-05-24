@@ -13,14 +13,20 @@ import {
     Box,
     Heading,
     Stack,
+    VStack,
   } from '@chakra-ui/react';
 import UserProfileEdit from './forms/EditAccountForm';
+import PlaylistItem from './PlaylistItem';
 import { useQuery } from '@apollo/client';
-import { usePlaylistContext } from './utils/GlobalState';
-import {QUERY_ALL_TRACKS} from './utils/queries'
+import { QUERY_ALL_PLAYLISTS } from './utils/queries';
+
+
 function DashboardDrawer() {
 const { isOpen, onOpen, onClose } = useDisclosure()
 const btnRef = React.useRef()
+const { data } = useQuery(QUERY_ALL_PLAYLISTS);
+const playlists = data?.playlists || [];
+console.log(playlists)
 
     return (
         <>
@@ -46,21 +52,14 @@ const btnRef = React.useRef()
                     <UserProfileEdit />
                 </Button>
 
-                <SimpleGrid columns={1} spacingY='10px'>
-                    <Heading as='h4' size='md'>
-                        Playlists
-                    </Heading>
-                    <Button>
-                        <Box> Playlist 1</Box>
-                    </Button>
-                    <Button>
-                        <Box> Playlist 2</Box>
-                    </Button>
-                    <Button>
-                        <Box> Playlist 3</Box>
-                    </Button>
+                <Heading as='h4' size='md'>
+                    Playlists
+                </Heading>
+                <VStack>
+
+                <PlaylistItem playlists={playlists}/>
                     
-                </SimpleGrid>
+                </VStack>
 
                 </Stack>
             </DrawerBody>

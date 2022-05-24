@@ -5,6 +5,8 @@ import SongDrawer from './SongDrawer';
 import DashboardDrawer from './DashboardDrawer';
 import MakePlaylistForm from './forms/MakePlaylistForm';
 import { FiMusic } from 'react-icons/fi'
+import { Button } from '@chakra-ui/react';
+import Auth from './utils/auth'
 
 
 function Navbar( {safeMode, setSafeMode} ) {
@@ -21,6 +23,42 @@ function Navbar( {safeMode, setSafeMode} ) {
       alert('Safe Mode is disabled. Explicit audio may be played.')
     }
   }, [safeMode])
+
+  
+
+  const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+  };
+    
+
+  // Need to hide navbar elements until user is logged in
+  // function ifLoggedIn(Auth) {
+  //   if (Auth.isLoggedIn()) {
+  //     return(
+      
+  //     <ul>
+        // <li className='nav-links'>
+        //   <DashboardDrawer />
+        // </li>
+        
+        // <li className='nav-links'>
+        //   <SongDrawer />
+        // </li>
+
+        // <li className='nav-links'>
+        //   <MakePlaylistForm />
+        // </li>
+
+        // <li className='nav-links' onClick={logout}>
+        //   Sign Out
+        // </li> 
+  //       </ul>
+  //      )
+  //   }
+  // } 
+
+
 
   return (
     <>
@@ -58,26 +96,30 @@ function Navbar( {safeMode, setSafeMode} ) {
               <MakePlaylistForm />
             </li>
 
-          </ul>
-          {safeMode ? (
-          <button
-            className='nav-links'
-            onClick={() => setSafeMode(!safeMode)}
-            style={{backgroundColor: 'green', color: 'black'}}
-          > Safe Mode On
-          </button>
-          ) : (
-          <button
-            className='nav-links'
-            onClick={() => setSafeMode(!safeMode)}
-            style={{backgroundColor: 'red', color: 'white'}}
-          > Safe Mode Off
-          </button>
-          )}
+            <li className='nav-links' onClick={logout}>
+              Sign Out
+            </li> 
 
+          </ul>
           
+
+        
         </div>
       </nav>
+
+      {safeMode ? (
+        <Button
+          onClick={() => setSafeMode(!safeMode)}
+          style={{backgroundColor: 'green', color: 'black'}}
+        > Safe Mode On
+        </Button>
+        ) : (
+        <Button
+          onClick={() => setSafeMode(!safeMode)}
+          style={{backgroundColor: 'red', color: 'white'}}
+        > Safe Mode Off
+        </Button>
+      )}
     </>
   );
 }

@@ -6,7 +6,6 @@ import Navbar from "./components/Navbar";
 import Home from "./components/pages/Home";
 import "./App.css";
 import Dashboard from "./components/pages/Dashboard";
-import Artist from "./components/pages/Artist";
 import  AudioUpload  from './components/AudioUpload';
 const client = new ApolloClient({
   uri: "/graphql",
@@ -28,7 +27,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/artist" element={<Artist />} />
           </Routes>
         </Router>
         <Footer safeMode={safeMode} />

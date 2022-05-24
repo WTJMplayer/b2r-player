@@ -96,7 +96,8 @@ button {
 .volume-controls {
   display: flex;
   flex-direction: row;
-  align-self: flex-end;
+  justify-content: center;
+  align-items: center;
   width: 15%;
   margin: 0 auto 15px;
 }
@@ -144,7 +145,7 @@ button {
 .progress {
   height: 0.5vh;
   -webkit-appearance: none;
-  width: 95%;
+  width: 90%;
   border-radius: 8px;
   background: #3b7677;
   transition: background 0.2s ease;
