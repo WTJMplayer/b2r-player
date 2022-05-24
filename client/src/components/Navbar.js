@@ -8,7 +8,6 @@ import { FiMusic } from 'react-icons/fi'
 import { Button } from '@chakra-ui/react';
 import Auth from './utils/auth'
 
-
 function Navbar( {safeMode, setSafeMode} ) {
 
   const [click, setClick] = useState(false);
@@ -24,41 +23,49 @@ function Navbar( {safeMode, setSafeMode} ) {
     }
   }, [safeMode])
 
-  
-
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
   };
-    
 
-  // Need to hide navbar elements until user is logged in
-  // function ifLoggedIn(Auth) {
-  //   if (Auth.isLoggedIn()) {
-  //     return(
-      
-  //     <ul>
-        // <li className='nav-links'>
-        //   <DashboardDrawer />
-        // </li>
+  function showNav() {
+    if (Auth.loggedIn()) {
+      return (
+        <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+        <li className='nav-item'>
+        <Link to='/dashboard' className='nav-links' onClick={closeMobileMenu}>
+          Dashboard
+        </Link>
+        </li>
+
+        <li className='nav-links'>
+          <DashboardDrawer />
+        </li>
         
-        // <li className='nav-links'>
-        //   <SongDrawer />
-        // </li>
+        <li className='nav-links'>
+          <SongDrawer />
+        </li>
 
-        // <li className='nav-links'>
-        //   <MakePlaylistForm />
-        // </li>
+        <li className='nav-links'>
+          <MakePlaylistForm />
+        </li>
 
-        // <li className='nav-links' onClick={logout}>
-        //   Sign Out
-        // </li> 
-  //       </ul>
-  //      )
-  //   }
-  // } 
+        <li className='nav-links' onClick={logout}>
+          Sign Out
+        </li> 
+        </ul>
+      );
+    } else {
+      return (
+        <li className='nav-item'>
+        <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+          Home
+        </Link>
+      </li>
+      )
+    }
 
-
+  }
 
   return (
     <>
@@ -72,38 +79,8 @@ function Navbar( {safeMode, setSafeMode} ) {
             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
           </div>
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
-            <li className='nav-item'>
-              <Link to='/' className='nav-links' onClick={closeMobileMenu}>
-                Home
-              </Link>
-            </li>
-
-            <li className='nav-item'>
-              <Link to='/dashboard' className='nav-links' onClick={closeMobileMenu}>
-                Dashboard
-              </Link>
-            </li>
-
-            <li className='nav-links'>
-              <DashboardDrawer />
-            </li>
-            
-            <li className='nav-links'>
-              <SongDrawer />
-            </li>
-
-            <li className='nav-links'>
-              <MakePlaylistForm />
-            </li>
-
-            <li className='nav-links' onClick={logout}>
-              Sign Out
-            </li> 
-
+            {showNav()}
           </ul>
-          
-
-        
         </div>
       </nav>
 

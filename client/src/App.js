@@ -12,8 +12,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
-
 function App() {
   const [safeMode, setSafeMode] = useState(true);
   return (

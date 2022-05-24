@@ -51,43 +51,43 @@ const AudioPlayer = ({ tracks, safeMode }) => {
   )}), color-stop(${currentPercentage}, #fff))
   `
 
-  const intervalRef = useRef(
-    setInterval(() => {
-      setTrackProgress(audioRef.current.mediaElement.currentTime)
-      if (!vizToggle) {
-        return
-      }
-      try {
-        canvas.current = document.querySelector('canvas')
-        context.current = canvas.current.getContext('2d')
-        draw(context.current)
-      } catch (error) {
-        console.log(error)
-      }
-    }, 1000 / 6),
-  )
+  // const intervalRef = useRef(
+  //   setInterval(() => {
+  //     setTrackProgress(audioRef.current.mediaElement.currentTime)
+  //     if (!vizToggle) {
+  //       return
+  //     }
+  //     try {
+  //       canvas.current = document.querySelector('canvas')
+  //       context.current = canvas.current.getContext('2d')
+  //       draw(context.current)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }, 1000 / 6),
+  // )
 
   const onScrub = (value) => {
-    clearInterval(intervalRef.current)
+    // clearInterval(intervalRef.current)
     audioRef.current.mediaElement.currentTime = value
     setTrackProgress(value)
   }
 
-  const onScrubEnd = () => {
-    setInterval(() => {
-      setTrackProgress(audioRef.current.mediaElement.currentTime)
-      if (!vizToggle) {
-        return
-      }
-      try {
-        canvas.current = document.querySelector('canvas')
+  // const onScrubEnd = () => {
+  //   setInterval(() => {
+  //     setTrackProgress(audioRef.current.mediaElement.currentTime)
+  //     if (!vizToggle) {
+  //       return
+  //     }
+  //     try {
+  //       canvas.current = document.querySelector('canvas')
 
-        draw(context.current)
-      } catch (error) {
-        console.log(error)
-      }
-    }, 1000 / 6)
-  }
+  //       draw(context.current)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }, 1000 / 6)
+  // }
 
   const toPrevTrack = useCallback(() => {
     setIsPlaying(false)
@@ -252,8 +252,8 @@ const AudioPlayer = ({ tracks, safeMode }) => {
         max={audioRef.current.mediaElement.duration}
         value={trackProgress}
         onChange={(e) => onScrub(e.target.value)}
-        onMouseUp={onScrubEnd}
-        onKeyUp={onScrubEnd}
+        // onMouseUp={onScrubEnd}
+        // onKeyUp={onScrubEnd}
         style={{ background: trackStyling }}
       />
     </div>
