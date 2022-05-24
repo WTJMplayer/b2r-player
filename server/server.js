@@ -30,7 +30,7 @@ app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === "production") {
   console.log("running in production mode");
-  app.use(express.static(path.join(__dirname, "..client/build")));
+  app.use(express.static(path.join(__dirname, "..client/build/static")));
 } else {
   console.log("running in development mode");
 }
@@ -57,12 +57,14 @@ app.get("/public/images/:image", (req, res) => {
   }
 });
 
-app.post("/public/audio/upload", (req, res) => {
+app.post("/public/audio/upload", async (req, res) =>  {
   const user = req.params.user;
   const track = req.params.track;
   const filename = `${user}-${track}`;
+  fs.createWriteStream(`./public/audio/temp/conversiontarget.`);
+
   try {
-    convertAudio(user, track, filename);
+    convertAudio(user, stream, filename);
     res.send("success");
   } catch (err) {
     console.error(err);
