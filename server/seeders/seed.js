@@ -29,7 +29,7 @@ db.once('open', async () => {
             artist: "test",
             album: "album 3",
             audioSrc: 'http://localhost:3001/public/audio/test.ogg',
-            image: 'http://localhost:3001/public/images/logo192.jpg',
+            image: 'http://localhost:3001/public/images/logo192.png',
             color: "#ff00ff",        
         },
         {
@@ -38,7 +38,7 @@ db.once('open', async () => {
             album: "album 4",
             explicit: true,
             audioSrc: 'http://localhost:3001/public/audio/bruh.ogg',
-            image: 'http://localhost:3001/public/images/logo192.jpg',
+            image: 'http://localhost:3001/public/images/logo192.png',
             color: "#ff00ff",        
         },
     ]);

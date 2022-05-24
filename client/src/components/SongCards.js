@@ -6,15 +6,18 @@ import {
   Flex, 
   Box,
 } from '@chakra-ui/react'
-import AddToPlaylist from './AddToPlaylist'
-import EditSongDetails from './EditSongDetails';
+import { useQuery } from '@apollo/client';
+import { QUERY_ALL_TRACKS } from './utils/queries';
 
 // What fills in the song cards, need to figure out how to link to songs from database
-function SongCards() {
+const SongCards = () => {
+  const { loading, data } = useQuery(QUERY_ALL_TRACKS);
+  const tracks = data?.tracks || [];
+  console.log(tracks)
 
   return (
     <>
-
+  
       <div className='cards__container'  >
         <div className='cards__wrapper'>
           <ul className='cards__items'>
@@ -23,66 +26,16 @@ function SongCards() {
               spacing={4}
 
               >
-              <Box>
-                <CardItems
-                  src='images/fillerimage.jpg'
-                  songname='Song name 1'
-                  artist='Artist 1'
-                  path='/dashboard'
-                  />
-                <Flex justify='space-between'>
-                  <AddToPlaylist />
-                  <EditSongDetails 
-                    songname='Song name 1'
-                    artist='Artist 1'/> 
-                </Flex>
-              </Box>
+              {/* <Box> */}
+              {loading ? (
+                <div>Loading...</div>
+             ) : (
+              <CardItems
+                tracks= {tracks}
+              />
+          )}
+              {/* </Box> */}
 
-              <Box>
-                <CardItems
-                  src='images/fillerimage.jpg'
-                  songname='Song name 2'
-                  artist='Artist 2'
-                  path='/dashboard'
-                  />
-                  <Flex justify='space-between'>
-                    <AddToPlaylist />
-                    <EditSongDetails 
-                      songname='Song name 2'
-                      artist='Artist 2'/> 
-                  </Flex>
-              </Box>
-
-              <Box>
-                <CardItems
-                  src='images/fillerimage.jpg'
-                  songname='Song name 3'
-                  artist='Artist 3'
-                  path='/dashboard'
-                  />
-                  <Flex justify='space-between'>
-                    <AddToPlaylist />
-                    <EditSongDetails 
-                      songname='Song name 3'
-                      artist='Artist 3'/> 
-                  </Flex>
-              </Box>
-
-              <Box>
-                <CardItems
-                  src='images/fillerimage.jpg'
-                  songname='Song name 4'
-                  artist='Artist 4'
-                  path='/dashboard'
-                  />
-                  <Flex justify='space-between'>
-                    <AddToPlaylist />
-                    <EditSongDetails 
-                      songname='Song name 4'
-                      artist='Artist 4'
-                      /> 
-                  </Flex>
-              </Box>
 
             </SimpleGrid>
           </ul>
