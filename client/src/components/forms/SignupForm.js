@@ -22,6 +22,8 @@ import {
   ModalCloseButton,
   HStack,
   FormLabel,
+  Text,
+  Center
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 
@@ -62,6 +64,7 @@ const SignupForm = (props) => {
       });
 
       Auth.login(data.addUser.token);
+
     } catch (e) {
       console.error(e);
     }
@@ -79,7 +82,18 @@ const SignupForm = (props) => {
           <ModalContent>
             <ModalHeader>Sign Up</ModalHeader>
             <ModalCloseButton />
+            { data ? (
             <ModalBody>
+                <div>
+                  <Center p='15px'>
+                    Success! You may now login with your new account!
+                  </Center>
+                </div>
+              </ModalBody>
+
+              ) : (
+              <div>
+              <ModalBody>
               <Stack spacing={4}>
                 <HStack>
                   <Box>
@@ -124,7 +138,7 @@ const SignupForm = (props) => {
                 </FormControl>
               </Stack>
             </ModalBody>
-
+            
             <ModalFooter>
               <Button variant="ghost" mr={3} onClick={onClose}>
                 Cancel
@@ -137,6 +151,9 @@ const SignupForm = (props) => {
                 Sign up!
               </Button>
             </ModalFooter>
+
+            </div>)}
+              
           </ModalContent>
         </Modal>
         </Flex>

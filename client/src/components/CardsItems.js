@@ -2,6 +2,7 @@ import React from 'react';
 import AddToPlaylist from './AddToPlaylist'
 import EditSongDetails from './EditSongDetails';
 import { Link } from 'react-router-dom';
+import DeleteButton from './DeleteButton';
 import {
   Box,
   Flex,
@@ -13,6 +14,7 @@ import { makeProcessedFieldsMerger } from '@apollo/client/cache/inmemory/helpers
 
 // Set up for card format, will use designated props
 const CardItems=({tracks}) => {
+
   return (
     <>
     {tracks && tracks?.map((track) => ( 
@@ -51,6 +53,7 @@ const CardItems=({tracks}) => {
                   <EditSongDetails 
                     songname='Song name 1'
                     artist='Artist 1'/> 
+                  <DeleteButton key={track.id}/>
                 </Flex>
             </Box>
 

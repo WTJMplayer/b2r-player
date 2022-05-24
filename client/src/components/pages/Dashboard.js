@@ -1,7 +1,6 @@
 import React from "react";
 import '../../App.css';
 import SongCards from "../SongCards";
-import ArtistCards from '../ArtistCards';
 import {
     Heading,
     Center,
@@ -20,7 +19,7 @@ function Dashboard() {
             <VStack pb='20vh' pt='5vh'>
                 <Center>
                     <Heading color='white'>
-                        Newest Song Uploads!
+                        Songs available
                     </Heading>
                 </Center>
                 <SongCards />
