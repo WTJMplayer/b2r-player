@@ -14,7 +14,7 @@ const AudioUpload = () => {
             console.log(file)
             const fd = new FormData()
             fd.append('track', file)
-            let url = 'http://localhost:3000/public/audio/upload'
+            let url = 'http://164.90.135.34/public/audio/upload'
             fetch(url, {
               method: 'POST',
               user: 'admin',
