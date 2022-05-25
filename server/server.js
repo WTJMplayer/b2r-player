@@ -55,6 +55,16 @@ app.get("/public/audio/:audio", (req, res) => {
   }
 });
 
+app.get("/public/audio/:user/:audio", (req, res) => {
+  const user = req.params.user;
+  const audio = req.params.audio;
+  try {
+    res.sendFile(path.join(__dirname, `/public/audio/${user}/${audio}`));
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 app.get("/public/images/:image", (req, res) => {
   const image = req.params.image;
   try {
@@ -69,10 +79,9 @@ app.post("/public/audio/upload", async (req, res) => {
     let user = "admin";
     let track = req.files.track;
     let fileName = track.name.split(".");
-    let fileExtension = fileName[1]
+    let fileExtension = fileName[1];
     let trackName = fileName[0];
 
-    
     fs.mkdirSync(`./public/audio/${user}`, { recursive: true });
     fs.mkdirSync(`./temp`, { recursive: true });
     let tempPath = `./temp/audio.${fileExtension}`;
@@ -84,8 +93,11 @@ app.post("/public/audio/upload", async (req, res) => {
       title: trackName,
       artist: user,
       album: "test",
-      audioSrc: `http://164.90.135.34/public/audio/${user}/${trackName.replace(" ", "-")}.ogg`,
-    })
+      audioSrc: `http://164.90.135.34/public/audio/${user}/${trackName.replace(
+        " ",
+        "-"
+      )}.ogg`,
+    });
 
     console.log(result);
 
@@ -93,9 +105,6 @@ app.post("/public/audio/upload", async (req, res) => {
       success: true,
       message: "File uploaded successfully",
     });
-
-
-
   } catch (err) {
     console.error(err);
     res.send({
