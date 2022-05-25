@@ -28,8 +28,8 @@ db.once('open', async () => {
             title: 'test',
             artist: "test",
             album: "album 3",
-            audioSrc: 'http://164.90.135.34//public/audio/test.ogg',
-            image: 'http://164.90.135.34//public/images/logo.png',
+            audioSrc: 'http://164.90.135.34/public/audio/test.ogg',
+            image: 'http://164.90.135.34/public/images/logo.png',
             color: "#ff00ff",        
         },
         {
