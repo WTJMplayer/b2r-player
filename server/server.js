@@ -2,18 +2,19 @@ const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
 const fs = require("fs");
 const path = require("path");
+const fileUpload = require("express-fileupload");
 const cors = require("cors");
+const Track = require("./models/Track");
 const corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200,
 };
+
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 const { authMiddleware } = require("./utils/auth");
 const { convertAudio } = require("./utils/convertAudio");
 const { graphqlUpload, graphqlUploadExpress } = require("graphql-upload");
-
-
 
 const PORT = process.env.PORT || 3001;
 
@@ -24,8 +25,14 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  fileUpload({
+    createParentPath: true,
+    limits: { fileSize: 40000000 },
+  })
+);
 app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === "production") {
@@ -57,19 +64,42 @@ app.get("/public/images/:image", (req, res) => {
   }
 });
 
-app.post("/public/audio/upload", async (req, res) =>  {
-  const user = req.params.user;
-  const track = req.params.track;
-  const filename = `${user}-${track}`;
-  fs.createWriteStream(`./public/audio/temp/conversiontarget.`);
-
+app.post("/public/audio/upload", async (req, res) => {
   try {
-    convertAudio(user, stream, filename);
-    res.send("success");
+    let user = "admin";
+    let track = req.files.track;
+    let fileName = track.name;
+    let fileExtension = track.name.split(".").pop();
+    fs.mkdirSync(`./public/audio/${user}`, { recursive: true });
+    fs.mkdirSync(`./temp`, { recursive: true });
+    let tempPath = `./temp/audio.${fileExtension}`;
+    await track.mv(tempPath);
+    await convertAudio(user, fileName, fileExtension);
+    fs.rmSync(tempPath);
+
+    let result = await Track.create({
+      title: fileName,
+      artist: user,
+      album: "test",
+      audioSrc: `http://164.90.135.34/public/audio/${user}/${fileName}.ogg`,
+    })
+
+    console.log(result);
+
+    res.send({
+      success: true,
+      message: "File uploaded successfully",
+    });
+
+
+
   } catch (err) {
     console.error(err);
+    res.send({
+      success: false,
+      message: "File upload failed",
+    });
   }
-
 });
 
 const startApolloServer = async (typeDefs, resolvers) => {

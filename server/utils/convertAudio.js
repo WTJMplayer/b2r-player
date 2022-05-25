@@ -1,22 +1,19 @@
 const ffmpeg = require("fluent-ffmpeg");
-ffmpeg.setFfmpegPath("./ffmpeg/bin/ffmpeg.exe");
-ffmpeg.setFfprobePath("./ffmpeg/bin/ffprobe.exe");
+ffmpeg.setFfmpegPath("./utils/ffmpeg/bin/ffmpeg.exe");
+ffmpeg.setFfprobePath("./utils/ffmpeg/bin/ffprobe.exe");
 const fs = require("fs");
 //convert a file
 
 // ffmpeg()
-//   .input("../../client/src/audio/1-hour-of-silence.mp3")
-//   .save("../../client/src/audio/1-hour-of-silence.ogg");
+//   .input("../temp/audio.mp3")
+//   .save("../temp/output.ogg")
 
 module.exports = {
-  convertAudio(user, file, fileName) {
+  convertAudio(user, fileName, fileExtension) {
     return new Promise((resolve, reject) => {
       ffmpeg()
-      .input(
-        fs.createReadStream(
-          file
-      ))
-      .save(`./audio/${user}/${fileName}.ogg`)
+      .input(`./temp/audio.${fileExtension}`)
+      .save(`./public/audio/${user}/${fileName}.ogg`)
         .on("end", () => {
           resolve(true);
           console.log("converted it boiiii");

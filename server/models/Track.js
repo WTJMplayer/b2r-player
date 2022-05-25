@@ -34,7 +34,7 @@ const trackSchema = new Schema({
   },
   color: {
     type: String,
-    default: '#ffffff'
+    default: '#0f0f0f'
   }
   
 });

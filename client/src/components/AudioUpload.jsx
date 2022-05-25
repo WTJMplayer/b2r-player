@@ -12,12 +12,17 @@ const AudioUpload = () => {
           const file = e.target.files[0]
           if (validity.valid) {
             console.log(file)
+            const fd = new FormData()
+            fd.append('track', file)
             let url = 'http://localhost:3000/public/audio/upload'
             fetch(url, {
               method: 'POST',
-              track: file,
               user: 'admin',
+              body: fd,
             })
+          }
+          else {
+            alert('Invalid file type')
           }
         }}
       />
