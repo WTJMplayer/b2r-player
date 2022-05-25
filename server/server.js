@@ -68,17 +68,19 @@ app.post("/public/audio/upload", async (req, res) => {
   try {
     let user = "admin";
     let track = req.files.track;
-    let fileName = track.name;
-    let fileExtension = track.name.split(".").pop();
+    let fileName = track.name.split(".");
+    let fileExtension = fileName[1]
+    let trackName = fileName[0];
+    
     fs.mkdirSync(`./public/audio/${user}`, { recursive: true });
     fs.mkdirSync(`./temp`, { recursive: true });
     let tempPath = `./temp/audio.${fileExtension}`;
     await track.mv(tempPath);
-    await convertAudio(user, fileName, fileExtension);
+    await convertAudio(user, trackName, fileExtension);
     fs.rmSync(tempPath);
 
     let result = await Track.create({
-      title: fileName,
+      title: trackName,
       artist: user,
       album: "test",
       audioSrc: `http://164.90.135.34/public/audio/${user}/${fileName}.ogg`,
