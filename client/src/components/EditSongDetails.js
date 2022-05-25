@@ -55,6 +55,8 @@ function EditSongDetails(trackId) {
       } catch (e) {
         console.error(e);
       }
+
+      onClose();
     };
 
     return (
