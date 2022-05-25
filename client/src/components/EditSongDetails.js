@@ -42,6 +42,7 @@ function EditSongDetails(trackId) {
     const handleFormSubmit = async (event) => {
       event.preventDefault();
       console.log(formState);
+      onClose(event);
       
   
       try {
@@ -57,9 +58,6 @@ function EditSongDetails(trackId) {
 
       onClose();
     };
-
-
-
 
     return (
       <>

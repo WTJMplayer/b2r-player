@@ -19,6 +19,7 @@ import UserProfileEdit from './forms/EditAccountForm';
 import PlaylistItem from './PlaylistItem';
 import { useQuery } from '@apollo/client';
 import { QUERY_ALL_PLAYLISTS } from './utils/queries';
+import Auth from './utils/auth'
 
 
 function DashboardDrawer() {
@@ -27,6 +28,11 @@ const btnRef = React.useRef()
 const { data } = useQuery(QUERY_ALL_PLAYLISTS);
 const playlists = data?.playlists || [];
 console.log(playlists)
+
+const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+  };
 
     return (
         <>
@@ -48,9 +54,9 @@ console.log(playlists)
 
             <DrawerBody>
                 <Stack spacing='24px'>
-                <Button>
+                {/* <Button>
                     <UserProfileEdit />
-                </Button>
+                </Button> */}
 
                 <Heading as='h4' size='md'>
                     Playlists
@@ -65,7 +71,7 @@ console.log(playlists)
             </DrawerBody>
 
             <DrawerFooter borderTopWidth='1px'>
-                <Button colorScheme={'blue'}>
+                <Button colorScheme={'blue'} onClick={logout}>
                     Sign Out
                 </Button>
             </DrawerFooter>

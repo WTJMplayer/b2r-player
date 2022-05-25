@@ -8,7 +8,6 @@ import "./App.css";
 import Dashboard from "./components/pages/Dashboard";
 import  AudioUpload  from './components/AudioUpload';
 import Auth from "./components/utils/auth";
-
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache(),

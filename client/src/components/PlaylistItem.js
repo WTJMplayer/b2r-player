@@ -16,24 +16,17 @@ const PlaylistItem=({playlists}) => {
     <>
     {playlists && playlists?.map((playlist) => ( 
 
-      <Flex >
+      <>
           
         {/* <Link to={`/playlists/${playlist.id}`}> */}
         <Button
-          maxW="sm"
-          borderWidth="2px"
-          rounded="lg"
-          shadow="lg"
-          position="relative"
+          position="center"
           backgroundColor='white'
           >
-
            { playlist.name } 
-
-
         </Button>
 
-      </Flex>
+      </>
 
       ))}
 
