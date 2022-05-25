@@ -93,7 +93,7 @@ app.post("/public/audio/upload", async (req, res) => {
       title: trackName,
       artist: user,
       album: "test",
-      audioSrc: `http://164.90.135.34/public/audio/${user}/${trackName.replace(
+      audioSrc: `http://164.90.135.34/public/audio/${user}/${trackName.replaceAll(
         " ",
         "-"
       )}.ogg`,

@@ -12,8 +12,8 @@ module.exports = {
   convertAudio(user, fileName, fileExtension) {
     return new Promise((resolve, reject) => {
       ffmpeg()
-      .input(`./temp/audio.${fileExtension}`)
-      .save(`./public/audio/${user}/${fileName.replace(" ", "-")}.ogg`)
+        .input(`./temp/audio.${fileExtension}`)
+        .save(`./public/audio/${user}/${fileName.replaceAll(" ", "-")}.ogg`)
         .on("end", () => {
           resolve(true);
           console.log("converted it boiiii");
