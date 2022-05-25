@@ -57,6 +57,8 @@ import {
       } catch (e) {
         console.error(e);
       }
+
+      onClose();
     };
     
 
