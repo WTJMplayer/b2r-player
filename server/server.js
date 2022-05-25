@@ -30,7 +30,7 @@ app.use(express.json());
 app.use(
   fileUpload({
     createParentPath: true,
-    limits: { fileSize: 40000000 },
+    limits: { fileSize: 2 * 1024 * 1024 * 100 },
   })
 );
 app.use(cors(corsOptions));
@@ -71,6 +71,7 @@ app.post("/public/audio/upload", async (req, res) => {
     let fileName = track.name.split(".");
     let fileExtension = fileName[1]
     let trackName = fileName[0];
+
     
     fs.mkdirSync(`./public/audio/${user}`, { recursive: true });
     fs.mkdirSync(`./temp`, { recursive: true });
@@ -83,7 +84,7 @@ app.post("/public/audio/upload", async (req, res) => {
       title: trackName,
       artist: user,
       album: "test",
-      audioSrc: `http://164.90.135.34/public/audio/${user}/${fileName}.ogg`,
+      audioSrc: `http://164.90.135.34/public/audio/${user}/${trackName.replace(" ", "-")}.ogg`,
     })
 
     console.log(result);

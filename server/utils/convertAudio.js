@@ -1,4 +1,7 @@
 const ffmpeg = require("fluent-ffmpeg");
+ffmpeg.setFfmpegPath("./utils/ffmpeg/bin/ffmpeg.exe");
+ffmpeg.setFfprobePath("./utils/ffmpeg/bin/ffprobe.exe");
+const fs = require("fs");
 //convert a file
 
 // ffmpeg()
