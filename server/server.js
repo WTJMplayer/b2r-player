@@ -81,7 +81,7 @@ app.post("/public/audio/upload", async (req, res) => {
     let fileName = track.name.split(".");
     let fileExtension = fileName[1];
     let trackName = fileName[0];
-
+    
     fs.mkdirSync(`./public/audio/${user}`, { recursive: true });
     fs.mkdirSync(`./temp`, { recursive: true });
     let tempPath = `./temp/audio.${fileExtension}`;
@@ -93,8 +93,8 @@ app.post("/public/audio/upload", async (req, res) => {
       title: trackName,
       artist: user,
       album: "test",
-      audioSrc: `http://164.90.135.34/public/audio/${user}/${trackName.replaceAll(
-        " ",
+      audioSrc: `http://164.90.135.34/public/audio/${user}/${trackName.replace(
+        /\s/g,
         "-"
       )}.ogg`,
     });

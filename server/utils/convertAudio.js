@@ -13,7 +13,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       ffmpeg()
         .input(`./temp/audio.${fileExtension}`)
-        .save(`./public/audio/${user}/${fileName.replaceAll(" ", "-")}.ogg`)
+        .save(`./public/audio/${user}/${fileName.replace(/\s/g, "-")}.ogg`)
         .on("end", () => {
           resolve(true);
           console.log("converted it boiiii");
